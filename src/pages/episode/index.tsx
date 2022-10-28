@@ -1,10 +1,9 @@
-import {ChangeEvent} from 'react'
+import {ChangeEvent, useState} from 'react'
 import axios from "axios";
-import {useState} from "react";
 import {GetStaticPropsResult, NextPage} from "next";
 import {Summary} from "../../types/episode/summary";
-import {Pagination} from "../../components/episode/Pagination"
-import {CardList} from "../../components/episode/CardList"
+import {Pagination} from "../../feature/episode/components/Pagination"
+import {CardList} from "../../feature/episode/components/CardList"
 import {animateScroll as scroll} from "react-scroll"
 
 type Props = {

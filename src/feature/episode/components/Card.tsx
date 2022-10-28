@@ -1,10 +1,7 @@
-import {
-  Box,
-  Grid,
-} from "@mui/material";
-import {Summary} from "../../types/episode/summary";
+import {Box, Grid,} from "@mui/material";
+import {Summary} from "../../../types/episode/summary";
 import styled from "styled-components"
-import {Chip} from "../ui/Chip"
+import {Chip} from "../../../components/ui/Chip"
 
 
 const StyledImg = styled.img`
@@ -20,15 +17,16 @@ const StyledImg = styled.img`
 `
 
 const StyledTitle = styled.p`
-  margin: 0.4rem 0;
-  font-size: 0.8rem;
+  margin: 0 0;
+  font-size: 0.7rem;
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
 
   @media (min-width: 600px) {
-    font-size: 1.2rem;
+    margin: 0.5rem 0;
+    font-size: 1rem;
   }
 `
 
@@ -36,7 +34,7 @@ const StyledTitle = styled.p`
 export const Card = (summary: Summary) => {
   return (
     <Grid item xs={12} md={12} lg={6}>
-      <Box sx={{display: 'flex', borderRadius: 1, overflow: "hidden", boxShadow: 4, m: 1}}>
+      <Box sx={{display: 'flex', borderRadius: 1, overflow: "hidden", boxShadow: 4, mr: 1, ml: 1}}>
         <Box justifyContent="center" alignItems="center" textAlign="center" display="flex">
           <StyledImg
             src={summary.thumbnailUrl}
