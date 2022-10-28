@@ -1,11 +1,11 @@
-import {Stack, Pagination as MuiPagination, Box} from "@mui/material";
-import React from 'react'
+import {Box, Pagination as MuiPagination, Stack} from "@mui/material";
+import React, {ChangeEvent} from 'react'
 
 
 type Props = {
   totalPages: number;
   page: number;
-  handleChange: (event: React.ChangeEvent<unknown>, value: number) => void;
+  handleChange: (event: ChangeEvent<unknown>, value: number) => void;
 }
 
 export const Pagination = ({totalPages, page, handleChange}: Props) => {

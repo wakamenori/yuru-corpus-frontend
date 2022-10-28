@@ -9,8 +9,9 @@ const StyledChip = styled.span`
   margin: 0;
   padding: 2px 8px;
   border-radius: 4px;
+  font-size: 0.8rem;
   @media (max-width: 600px) {
-    font-size: 0.8rem;
+    font-size: 0.6rem;
   }
 `
 
