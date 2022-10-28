@@ -1,14 +1,7 @@
-import Typography from '@mui/material/Typography'
-import * as React from 'react'
+import {Button} from '@mui/material'
 
 export const Logo = () => {
-  return (<>          <Typography
-    variant="h6"
-    noWrap
-    component="div"
-    sx={{flexGrow: 1, display: {xs: 'none', sm: 'block'}}}
-  >
-    ゆるコーパス
-  </Typography>
-  </>)
+  return (
+    <Button href={"/episode"} variant={"text"} sx={{color: "white"}}>ゆる言コーパス</Button>
+  )
 }

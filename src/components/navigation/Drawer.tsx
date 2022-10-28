@@ -6,13 +6,14 @@ import {VideoLibrary} from '@mui/icons-material'
 import {useRouter} from "next/router";
 
 type Props = {
+  appBarRowNumber?: number;
   open: boolean;
   toggleDrawer: (event: KeyboardEvent | MouseEvent) => void;
   closeHandler: () => void;
 }
 const drawerWidth = 240;
 
-export const Drawer = ({open, toggleDrawer, closeHandler}: Props) => {
+export const Drawer = ({open, toggleDrawer, closeHandler, appBarRowNumber}: Props) => {
   const router = useRouter();
   const selectItem = (link: string) => {
     closeHandler()
@@ -31,7 +32,7 @@ export const Drawer = ({open, toggleDrawer, closeHandler}: Props) => {
           [`& .MuiDrawer-paper`]: {width: drawerWidth, boxSizing: 'border-box'},
         }}
       >
-        <Toolbar/>
+        {[...Array(appBarRowNumber || 1)].map((_, index) => <Toolbar key={index}/>)}
         <DrawerItem
           icon={<VideoLibrary/>}
           text={"全動画一覧"}
