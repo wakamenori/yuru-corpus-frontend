@@ -51,7 +51,7 @@ export const getStaticProps = async (context: any): Promise<GetStaticPropsResult
 export const getStaticPaths = async () => {
   return {
     paths: [{params: {episodeId: "1"}}, {params: {episodeId: "3"}}],
-    fallback: true,
+    fallback: "blocking",
   };
 }
 
