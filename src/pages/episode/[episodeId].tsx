@@ -13,7 +13,7 @@ type Props = {
 const EpisodeDetail: NextPage<Props> = ({ morphemes, summary }) => {
   console.log(summary)
   if (typeof morphemes === "undefined") {
-    return <></>
+    return <p>{summary.title}</p>
   }
   return (
     <Box marginTop={{ xs: 16, sm: 18 }}>
