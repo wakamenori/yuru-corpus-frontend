@@ -4,7 +4,6 @@ const prodApiRoot = "https://fvtht2i9p8.execute-api.ap-northeast-1.amazonaws.com
 
 const nextConfig = () => {
   const isProd = process.env.STAGE === "prod"
-  console.log(process.env.STAGE, isProd)
   return {
     reactStrictMode: true,
     swcMinify: true,
