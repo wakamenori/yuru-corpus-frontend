@@ -30,9 +30,7 @@ export const AppBar = () => {
     if (isEpisodeDetail) {
       const url = `${process.env.NEXT_PUBLIC_API_ROOT}/summary/by_episode/${router.query.episodeId}/`
       axios.get(url, {
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-          }
+          withCredentials: true
         }
       ).then((res: AxiosResponse<Summary>) => {
         setEpisodeTitle(res.data.title)
