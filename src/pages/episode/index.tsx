@@ -10,7 +10,6 @@ type Props = {
   summary: Summary[];
 }
 const Episode: NextPage<Props> = ({summary}) => {
-  console.log(process.env.NEXT_PUBLIC_API_ROOT)
   const [page, setPage] = useState(1);
   const cardPerPage = 10;
   const summarySlice = summary.slice((page - 1) * cardPerPage, page * cardPerPage);
