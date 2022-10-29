@@ -11,10 +11,6 @@ type Props = {
   summary: Summary;
 }
 const EpisodeDetail: NextPage<Props> = ({ morphemes, summary }) => {
-  console.log(summary)
-  if (typeof morphemes === "undefined") {
-    return <p>{summary.title}</p>
-  }
   return (
     <Box marginTop={{ xs: 16, sm: 18 }}>
       {morphemes.map((morpheme, index) => (
@@ -43,20 +39,20 @@ export const getStaticProps = async (context: any): Promise<GetStaticPropsResult
     const { data: morphemeData } = await axios.get<MorphemeResponse>(`${process.env.NEXT_PUBLIC_API_ROOT}/morpheme/by_episode/${episodeId}/`);
     const { data: summaryData } = await axios.get<Summary>(`${process.env.NEXT_PUBLIC_API_ROOT}/summary/by_episode/${episodeId}/`);
     return {
-      revalidate: 60,
+      revalidate: 3600,
       props: { morphemes: morphemeData.morphemes, summary: summaryData 
     } };
   } catch (error) {
     console.log(error);
-    return { revalidate: 60,props: { morphemes: [], summary: { title: JSON.stringify(error), videoUrl: "", id: 0,  publicationDate: "", thumbnailUrl: "" } } };
     return { notFound: true };
   }
 }
 
 export const getStaticPaths = async () => {
+  const { data : allEpisodes } = await axios.get<{summary: Summary[] }>(`${process.env.NEXT_PUBLIC_API_ROOT}/summary/`);
   return {
-    paths: [{ params: { episodeId: "1" } }, { params: { episodeId: "3" } }],
-    fallback: true,
+    paths: allEpisodes.summary.filter(summary => summary.analysed).map((episode) => ({params: {episodeId: episode.id.toString()}})),
+    fallback: false,
   };
 }
 
