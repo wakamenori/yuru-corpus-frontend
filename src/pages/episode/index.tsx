@@ -10,6 +10,7 @@ type Props = {
   summary: Summary[];
 }
 const Episode: NextPage<Props> = ({summary}) => {
+  console.log(process.env.NEXT_PUBLIC_API_ROOT)
   const [page, setPage] = useState(1);
   const cardPerPage = 10;
   const summarySlice = summary.slice((page - 1) * cardPerPage, page * cardPerPage);
@@ -34,7 +35,7 @@ type SummaryResponse = {
 
 export async function getStaticProps(): Promise<GetStaticPropsResult<Props>> {
   try {
-    const {data} = await axios.get<SummaryResponse>(`${process.env.NEXT_PUBLICK_API_ROOT}/summary/`);
+    const {data} = await axios.get<SummaryResponse>(`${process.env.NEXT_PUBLIC_API_ROOT}/summary/`);
     return {props: {summary: data.summary}};
   } catch (error) {
     console.log(error);
