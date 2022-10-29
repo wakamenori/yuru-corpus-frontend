@@ -29,7 +29,8 @@ export const AppBar = () => {
   useEffect(() => {
     if (isEpisodeDetail) {
       const url = `${process.env.NEXT_PUBLIC_API_ROOT}/summary/by_episode/${router.query.episodeId}/`
-      axios.get(url
+      axios.get(
+        url
       ).then((res: AxiosResponse<Summary>) => {
         setEpisodeTitle(res.data.title)
       }).catch((err) => {
