@@ -42,10 +42,13 @@ export const getStaticProps = async (context: any): Promise<GetStaticPropsResult
     const { episodeId } = context.params as PathParams
     const { data: morphemeData } = await axios.get<MorphemeResponse>(`${process.env.NEXT_PUBLIC_API_ROOT}/morpheme/by_episode/${episodeId}/`);
     const { data: summaryData } = await axios.get<Summary>(`${process.env.NEXT_PUBLIC_API_ROOT}/summary/by_episode/${episodeId}/`);
-    return { props: { morphemes: morphemeData.morphemes, summary: summaryData } };
+    return {
+      revalidate: 60,
+      props: { morphemes: morphemeData.morphemes, summary: summaryData 
+    } };
   } catch (error) {
     console.log(error);
-    return { props: { morphemes: [], summary: { title: JSON.stringify(error), videoUrl: "", id: 0,  publicationDate: "", thumbnailUrl: "" } } };
+    return { revalidate: 60,props: { morphemes: [], summary: { title: JSON.stringify(error), videoUrl: "", id: 0,  publicationDate: "", thumbnailUrl: "" } } };
     return { notFound: true };
   }
 }
