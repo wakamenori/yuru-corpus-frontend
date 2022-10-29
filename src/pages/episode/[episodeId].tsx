@@ -1,21 +1,22 @@
 import axios from "axios";
-import {GetStaticPropsResult, NextPage} from "next";
-import {Box} from "@mui/material";
-import {Utterance} from "../../components/utterance/Utterance";
-import {Morpheme} from "../../types/morpheme/morpheme"
-import {Summary} from "../../types/episode/summary";
+import { GetStaticPropsResult, NextPage } from "next";
+import { Box } from "@mui/material";
+import { Utterance } from "../../components/utterance/Utterance";
+import { Morpheme } from "../../types/morpheme/morpheme"
+import { Summary } from "../../types/episode/summary";
 
 
 type Props = {
   morphemes: Morpheme[];
   summary: Summary;
 }
-const EpisodeDetail: NextPage<Props> = ({morphemes, summary}) => {
+const EpisodeDetail: NextPage<Props> = ({ morphemes, summary }) => {
+  console.log(summary)
   if (typeof morphemes === "undefined") {
     return <></>
   }
   return (
-    <Box marginTop={{xs: 16, sm: 18}}>
+    <Box marginTop={{ xs: 16, sm: 18 }}>
       {morphemes.map((morpheme, index) => (
         <Utterance
           url={summary.videoUrl}
@@ -38,19 +39,20 @@ type PathParams = {
 
 export const getStaticProps = async (context: any): Promise<GetStaticPropsResult<Props>> => {
   try {
-    const {episodeId} = context.params as PathParams
-    const {data: morphemeData} = await axios.get<MorphemeResponse>(`${process.env.NEXT_PUBLIC_API_ROOT}/morpheme/by_episode/${episodeId}/`);
-    const {data: summaryData} = await axios.get<Summary>(`${process.env.NEXT_PUBLIC_API_ROOT}/summary/by_episode/${episodeId}/`);
-    return {props: {morphemes: morphemeData.morphemes, summary: summaryData}};
+    const { episodeId } = context.params as PathParams
+    const { data: morphemeData } = await axios.get<MorphemeResponse>(`${process.env.NEXT_PUBLIC_API_ROOT}/morpheme/by_episode/${episodeId}/`);
+    const { data: summaryData } = await axios.get<Summary>(`${process.env.NEXT_PUBLIC_API_ROOT}/summary/by_episode/${episodeId}/`);
+    return { props: { morphemes: morphemeData.morphemes, summary: summaryData } };
   } catch (error) {
     console.log(error);
-    return {notFound: true};
+    return { props: { morphemes: [], summary: { title: JSON.stringify(error), videoUrl: "", id: 0,  publicationDate: "", thumbnailUrl: "" } } };
+    return { notFound: true };
   }
 }
 
 export const getStaticPaths = async () => {
   return {
-    paths: [{params: {episodeId: "1"}}, {params: {episodeId: "3"}}],
+    paths: [{ params: { episodeId: "1" } }, { params: { episodeId: "3" } }],
     fallback: "blocking",
   };
 }
