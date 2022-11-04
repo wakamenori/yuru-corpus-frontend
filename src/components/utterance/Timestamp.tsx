@@ -1,5 +1,5 @@
-import {Link, Typography} from '@mui/material'
-import {createTheme, responsiveFontSizes, ThemeProvider,} from '@mui/material/styles';
+import {createTheme, responsiveFontSizes} from '@mui/material/styles';
+import styled from "styled-components";
 
 
 type Props = {
@@ -11,8 +11,22 @@ type Props = {
 let theme = createTheme();
 theme = responsiveFontSizes(theme);
 
+const StyledLink = styled.div<{ hasHour: boolean }>`
+  flex-grow: 0;
+  width: ${props => props.hasHour ? "5rem" : "3.5rem"};
+  text-align: center;
+  color: #1560c0;
+  margin: auto;
 
-export const Timestamp = ({timestamp, url}: Props) => {
+  & * {
+    font-size: 0.8rem;
+    margin: auto
+    display: block
+  }
+`
+
+
+export const Timestamp = ({timestamp, url, onClick}: Props) => {
   const timestampArray = timestamp.split(":");
   let urlWithTimestamp = url + "&t=";
   if (timestampArray.length > 2) {
@@ -20,29 +34,23 @@ export const Timestamp = ({timestamp, url}: Props) => {
   } else {
     urlWithTimestamp += +timestampArray[0] * 60 + +timestampArray[1];
   }
-
-  if (typeof url === "undefined") {
-    return (
-      <ThemeProvider theme={theme}>
-        <Typography color="primary" sx={{mr: 2, ml: 2}} variant="body2">
-          {timestamp}
-        </Typography>
-      </ThemeProvider>
-    )
-  } else {
-    return (
-      <div>
-        <Link
-          target="_blank"
-          rel="noreferrer"
-          href={urlWithTimestamp}
-          underline="none"
-          color="primary"
-          sx={{mr: 2, ml: 2}}
-        >
-          {timestamp}
-        </Link>
-      </div>
-    )
+  if (timestamp.startsWith("00:")) {
+    timestamp = timestamp.substring(3);
   }
+
+  return (
+    <StyledLink hasHour={timestamp.length > 5}>
+      {url == undefined ?
+        (
+          <p>
+            {timestamp}
+          </p>
+        ) : (
+          <a href={urlWithTimestamp} target="_blank" rel="noreferrer" onClick={onClick}>
+            {timestamp}
+          </a>
+        )
+      }
+    </StyledLink>
+  )
 }
