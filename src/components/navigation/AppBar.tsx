@@ -1,12 +1,9 @@
-import {KeyboardEvent, MouseEvent, useEffect, useState} from 'react'
-import {AppBar as MuiAppBar, Box, CssBaseline, IconButton, Toolbar} from '@mui/material';
-import {Menu} from '@mui/icons-material'
-import {Logo} from "./Logo";
-import {Drawer} from "./Drawer";
-import {EpisodeDetailAppBar} from './EpisodeDetailAppBar'
-import {useRouter} from "next/router";
-import axios, {AxiosResponse} from 'axios'
-import {Summary} from "../../types/episode/summary";
+import { KeyboardEvent, MouseEvent, useState } from 'react'
+import { AppBar as MuiAppBar, Box, CssBaseline, IconButton, Toolbar } from '@mui/material';
+import { Menu } from '@mui/icons-material'
+import { Logo } from "./Logo";
+import { Drawer } from "./Drawer";
+import { useRouter } from "next/router";
 
 export const AppBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,27 +21,13 @@ export const AppBar = () => {
     setIsOpen(false);
   }
   const router = useRouter();
-  const [episodeTitle, setEpisodeTitle] = useState<string>("");
   const isEpisodeDetail = router.pathname === '/episode/[episodeId]';
-  useEffect(() => {
-    if (isEpisodeDetail) {
-      const url = `${process.env.NEXT_PUBLIC_API_ROOT}/summary/by_episode/${router.query.episodeId}/`
-      axios.get(
-        url
-      ).then((res: AxiosResponse<Summary>) => {
-        setEpisodeTitle(res.data.title)
-      }).catch((err) => {
-        console.log(err)
-      })
-    }
-  }, [router.query, isEpisodeDetail]);
-
   return (
-    <Box sx={{display: "flex"}}>
-      <CssBaseline/>
+    <Box sx={{ display: "flex" }}>
+      <CssBaseline />
       <MuiAppBar
         position="fixed"
-        sx={{zIndex: (theme) => theme.zIndex.drawer + 1}}
+        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
       >
         <Toolbar>
           <IconButton
@@ -53,20 +36,19 @@ export const AppBar = () => {
             edge="start"
             color="inherit"
             aria-label="open drawer"
-            sx={{mr: 2}}
+            sx={{ mr: 2 }}
           >
-            <Menu/>
+            <Menu />
           </IconButton>
-          <Logo/>
+          <Logo />
           {/*<Search/>*/}
         </Toolbar>
-        {isEpisodeDetail && <EpisodeDetailAppBar title={episodeTitle}/>}
       </MuiAppBar>
       <Drawer
         open={isOpen}
         toggleDrawer={toggleDrawer}
         closeHandler={closeDrawer}
-        appBarRowNumber={isEpisodeDetail ? 2 : 1}
+        appBarRowNumber={isEpisodeDetail ? 1 : 1}
       />
     </Box>
   );

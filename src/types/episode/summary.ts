@@ -4,5 +4,5 @@ export type Summary = {
   title: string;
   thumbnailUrl: string;
   publicationDate: string;
-  analysed: boolean;
+  isAnalyzed: boolean;
 }
