@@ -127,7 +127,7 @@ export const getStaticProps = async (context: any): Promise<GetStaticPropsResult
     const morphemeData = await getMorphemesApi(+episodeId);
     const { data: summaryData } = await axios.get<Summary>(`${process.env.NEXT_PUBLIC_API_ROOT}/summary/by_episode/${episodeId}/`);
     return {
-      revalidate: 3600,
+      revalidate: 60,
       props: {
         morphemes: morphemeData, summary: summaryData
       }
