@@ -142,7 +142,7 @@ export const getStaticPaths = async () => {
   const { data: allEpisodes } = await axios.get<{ summary: Summary[] }>(`${process.env.NEXT_PUBLIC_API_ROOT}/summary/`);
   return {
     paths: allEpisodes.summary.filter(summary => summary.isAnalyzed).map((episode) => ({ params: { episodeId: episode.id.toString() } })),
-    fallback: false,
+    fallback: "blocking",
   };
 }
 
