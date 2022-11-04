@@ -35,7 +35,7 @@ type SummaryResponse = {
 export async function getStaticProps(): Promise<GetStaticPropsResult<Props>> {
   try {
     const {data} = await axios.get<SummaryResponse>(`${process.env.NEXT_PUBLIC_API_ROOT}/summary/`);
-    return {props: {summary: data.summary.filter(summary => summary.analysed)}};
+    return {props: {summary: data.summary.filter(summary => summary.isAnalyzed)}};
   } catch (error) {
     console.log(error);
     return {notFound: true};
