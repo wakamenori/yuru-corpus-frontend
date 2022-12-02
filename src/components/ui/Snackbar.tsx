@@ -1,32 +1,26 @@
-import { useState, forwardRef, useImperativeHandle, SyntheticEvent } from 'react';
-import Stack from '@mui/material/Stack';
-import MuiAlert, { AlertProps } from '@mui/material/Alert';
-import { Snackbar as MuiSnackbar } from "@mui/material";
+import { AlertProps, Alert as MuiAlert, Snackbar as MuiSnackbar } from '@mui/material'
+import Stack from '@mui/material/Stack'
+import { SyntheticEvent, forwardRef, useState } from 'react'
 
-
-const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
-  props,
-  ref,
-) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
-
+const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />
+})
 
 type Props = {
-  message: string;
-  severity: "success" | "info" | "warning" | "error";
-  onClose: () => void;
+  message: string
+  severity: 'success' | 'info' | 'warning' | 'error'
+  onClose: () => void
 }
 
 export const Snackbar = ({ message, severity, onClose }: Props) => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(true)
   const handleClose = (event?: SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
-      return;
+      return
     }
-    onClose();
-    setOpen(false);
-  };
+    onClose()
+    setOpen(false)
+  }
   return (
     <Stack spacing={2} sx={{ width: '100%' }}>
       <MuiSnackbar open={open} autoHideDuration={6000} onClose={handleClose}>
@@ -35,6 +29,5 @@ export const Snackbar = ({ message, severity, onClose }: Props) => {
         </Alert>
       </MuiSnackbar>
     </Stack>
-  );
+  )
 }
-

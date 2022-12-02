@@ -1,0 +1,62 @@
+import { Person } from '@mui/icons-material'
+import { Avatar, Dialog, List, ListItem, ListItemAvatar, ListItemText } from '@mui/material'
+import styled from 'styled-components'
+
+import { SpeakerColorGenerator, guestSpeakers, hostSpeakers } from '../../../../utils/speakers'
+
+type Props = {
+  open: boolean
+  onClose: () => void
+  onSelect: (name: string) => void
+}
+
+const Container = styled.div`
+  width: 150px;
+`
+
+export const SpeakerDialog = ({ open, onClose, onSelect }: Props) => {
+  const handleClose = () => {
+    onClose()
+  }
+
+  const handleListItemClick = (value: string) => {
+    onClose()
+    onSelect(value)
+  }
+  const colorGenerator = new SpeakerColorGenerator()
+  const speakers = [...hostSpeakers, ...guestSpeakers]
+  const speakerColorMap = speakers.map((name) => {
+    const color = colorGenerator.getSpeakerColor(name)
+    return {
+      name: name,
+      backGroundColor: color.backgroundColor,
+      color: color.color,
+    }
+  })
+
+  return (
+    <>
+      <Dialog onClose={handleClose} open={open}>
+        {/*TODO: wider width*/}
+        <Container>
+          <List>
+            {speakerColorMap.map((speakerColor) => (
+              <ListItem
+                button
+                onClick={() => handleListItemClick(speakerColor.name)}
+                key={speakerColor.name}
+              >
+                <ListItemAvatar>
+                  <Avatar sx={{ bgcolor: speakerColor.backGroundColor, color: speakerColor.color }}>
+                    <Person />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={speakerColor.name} />
+              </ListItem>
+            ))}
+          </List>
+        </Container>
+      </Dialog>
+    </>
+  )
+}
