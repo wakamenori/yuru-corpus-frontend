@@ -11,7 +11,6 @@ import { UtteranceEditor } from '../../feature/episode/components/edit/Utterance
 import { Panel } from '../../feature/episode/components/panel/Panel'
 import { SpeakerInfo } from '../../feature/episode/types/speaker'
 import { getMorphemesApi } from '../../feature/episode/utils/api'
-import { useWindowDimensions } from '../../hooks/use-window-dimensions'
 import { Summary } from '../../types/episode/summary'
 import { Morpheme } from '../../types/morpheme/morpheme'
 import { SpeakerColorGenerator } from '../../utils/speakers'
@@ -44,11 +43,6 @@ const EpisodeDetail: NextPage<Props> = ({ morphemes, summary }) => {
   const reloadMorphemes = useCallback(async () => {
     setMorphemesState(await getMorphemesApi(summary.id))
   }, [summary.id])
-
-  const { width } = useWindowDimensions()
-  const headerHeight = width > 600 ? 64 : 56
-  const panelHeight = 84
-  const utterancePosition = (width * 9) / 16 + headerHeight + panelHeight
 
   type MorphemeSetItem = {
     speaker: string
@@ -147,7 +141,6 @@ const EpisodeDetail: NextPage<Props> = ({ morphemes, summary }) => {
         episodeId={summary.id}
         morphemesBySpeaker={morphemesBySpeakerState}
         speakersInfo={speakersInfoState}
-        topPosition={utterancePosition}
         isEdit={isEdit}
         reloadMorphemes={reloadMorphemes}
       />
