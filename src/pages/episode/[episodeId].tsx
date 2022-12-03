@@ -1,11 +1,13 @@
 import axios from 'axios'
 import { GetStaticPropsResult, NextPage } from 'next'
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 
+import { Snackbar } from '../../components/ui/Snackbar'
 import { Player } from '../../components/youtube/Player'
 import { Header } from '../../feature/episode/components/Header'
 import { ScrollArea } from '../../feature/episode/components/ScrollArea'
+import { UtteranceEditor } from '../../feature/episode/components/edit/UtteranceEditor'
 import { Panel } from '../../feature/episode/components/panel/Panel'
 import { SpeakerInfo } from '../../feature/episode/types/speaker'
 import { getMorphemesApi } from '../../feature/episode/utils/api'
@@ -39,71 +41,115 @@ const EpisodeDetail: NextPage<Props> = ({ morphemes, summary }) => {
   const toggleIsEdit = () => {
     setIsEdit((prev) => !prev)
   }
-  const reloadMorphemes = async () => {
+  const reloadMorphemes = useCallback(async () => {
     setMorphemesState(await getMorphemesApi(summary.id))
-  }
+  }, [summary.id])
 
   const { width } = useWindowDimensions()
   const headerHeight = width > 600 ? 64 : 56
   const panelHeight = 84
   const utterancePosition = (width * 9) / 16 + headerHeight + panelHeight
-  const speakerColor = new SpeakerColorGenerator()
-  const speakersInfo: SpeakerInfo = {}
 
   type MorphemeSetItem = {
     speaker: string
     morphemes: Morpheme[]
   }
 
-  const morphemesBySpeaker: MorphemeSetItem[] = []
-  let processingMorphemeSetItem: MorphemeSetItem = {
-    speaker: morphemesState[0].speaker,
-    morphemes: [],
-  }
+  const [speakersInfoState, setSpeakersInfoState] = useState<SpeakerInfo>({})
+  const [morphemesBySpeakerState, setMorphemesBySpeakerState] = useState<MorphemeSetItem[]>([])
+  const [utteranceEditorsState, setUtteranceEditorsState] = useState<JSX.Element[]>([])
 
-  for (let i = 0; i < morphemesState.length; i++) {
-    const speaker = morphemesState[i]?.speaker
-    if (speaker in speakersInfo) {
-      speakersInfo[speaker].count += 1
-    } else {
-      speakersInfo[speaker] = {
-        ...speakerColor.getSpeakerColor(speaker),
-        count: 1,
-      }
-    }
-    if (speaker === processingMorphemeSetItem.speaker) {
-      processingMorphemeSetItem.morphemes.push(morphemesState[i])
-    } else {
-      morphemesBySpeaker.push(processingMorphemeSetItem)
-      processingMorphemeSetItem = {
-        speaker: speaker,
-        morphemes: [morphemesState[i]],
-      }
-    }
+  const [isShowSnackbar, setIsShowSnackbar] = useState(false)
+  const [snackbarMessage, setSnackbarMessage] = useState('')
+  const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success')
+  const openSnackbar = (message: string, severity: 'success' | 'error') => {
+    setSnackbarMessage(message)
+    setSnackbarSeverity(severity)
+    setIsShowSnackbar(true)
   }
-  morphemesBySpeaker.push(processingMorphemeSetItem)
+  const hideSnackbar = () => {
+    setIsShowSnackbar(false)
+  }
+  useEffect(() => {
+    const speakerColor = new SpeakerColorGenerator()
+    let processingMorphemeSetItem: MorphemeSetItem = {
+      speaker: morphemesState[0].speaker,
+      morphemes: [],
+    }
+    const speakersInfo: SpeakerInfo = {}
+    const morphemesBySpeaker: MorphemeSetItem[] = []
+    const utteranceEditors: JSX.Element[] = []
+    for (let i = 0; i < morphemesState.length; i++) {
+      const speaker = morphemesState[i]?.speaker
+      let speakerColorInfo: { color: string; backgroundColor: string }
+      if (speaker in speakersInfo) {
+        speakersInfo[speaker].count += 1
+        speakerColorInfo = {
+          color: speakersInfo[speaker].color,
+          backgroundColor: speakersInfo[speaker].backgroundColor,
+        }
+      } else {
+        speakerColorInfo = speakerColor.getSpeakerColor(speaker)
+        speakersInfo[speaker] = {
+          ...speakerColorInfo,
+          count: 1,
+        }
+      }
+      if (speaker === processingMorphemeSetItem.speaker) {
+        processingMorphemeSetItem.morphemes.push(morphemesState[i])
+      } else {
+        morphemesBySpeaker.push(processingMorphemeSetItem)
+        processingMorphemeSetItem = {
+          speaker: speaker,
+          morphemes: [morphemesState[i]],
+        }
+      }
+      utteranceEditors.push(
+        <UtteranceEditor
+          episodeId={summary.id}
+          onReload={reloadMorphemes}
+          key={i}
+          token={morphemesState[i].token}
+          speakerName={morphemesState[i].speaker}
+          speakerBackgroundColor={speakersInfo[morphemesState[i].speaker].backgroundColor}
+          speakerNameColor={speakerColorInfo.color}
+          timestamp={morphemesState[i].timestamp}
+          showSnackbar={openSnackbar}
+          isOdd={i % 2 === 0}
+        />,
+      )
+    }
+    morphemesBySpeaker.push(processingMorphemeSetItem)
+    for (let speaker in speakersInfo) {
+      speakersInfo[speaker].percentage = Math.ceil(
+        (speakersInfo[speaker].count / morphemesState.length) * 100,
+      )
+    }
 
-  for (let speaker in speakersInfo) {
-    speakersInfo[speaker].percentage = Math.ceil(
-      (speakersInfo[speaker].count / morphemesState.length) * 100,
-    )
-  }
+    setSpeakersInfoState(speakersInfo)
+    setMorphemesBySpeakerState(morphemesBySpeaker)
+    setUtteranceEditorsState(utteranceEditors)
+  }, [morphemesState, summary.id, reloadMorphemes])
 
   return (
     <>
+      {isShowSnackbar && (
+        <Snackbar message={snackbarMessage} severity={snackbarSeverity} onClose={hideSnackbar} />
+      )}
       <Header title={summary.title} hideOnScloll={false} />
       <PlayerWithPanel>
         <Player videoId={videoId} />
-        <Panel speakersInfo={speakersInfo} isEdit={isEdit} toggleIsEdit={toggleIsEdit} />
+        <Panel speakersInfo={speakersInfoState} isEdit={isEdit} toggleIsEdit={toggleIsEdit} />
       </PlayerWithPanel>
       <ScrollArea
+        openSnackbar={openSnackbar}
+        utteranceEditors={utteranceEditorsState}
         episodeId={summary.id}
-        morphemesBySpeaker={morphemesBySpeaker}
-        speakersInfo={speakersInfo}
+        morphemesBySpeaker={morphemesBySpeakerState}
+        speakersInfo={speakersInfoState}
         topPosition={utterancePosition}
         isEdit={isEdit}
         reloadMorphemes={reloadMorphemes}
-        morphemes={morphemesState}
       />
     </>
   )

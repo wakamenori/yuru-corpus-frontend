@@ -1,14 +1,17 @@
-import { DeleteOutlined, HighlightOff, Save } from '@mui/icons-material'
-import { IconButton } from '@mui/material'
-import { useEffect, useMemo, useState } from 'react'
-import { useForm } from 'react-hook-form'
-import styled from 'styled-components'
+import { DeleteOutlined, HighlightOff, Save } from '@mui/icons-material';
+import { IconButton } from '@mui/material';
+import { useEffect, useMemo, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import styled from 'styled-components';
 
-import { deleteMorphemeApi, postMorphemeApi, putMorphemeApi } from '../../utils/api'
-import { SpeakerChip } from '../SpeakerChip'
-import { SpeakerDialog } from './SpeakerDialog'
-import { TimestampInput } from './TimestampInput'
-import { TokenInput } from './TokenInput'
+
+
+import { deleteMorphemeApi, postMorphemeApi, putMorphemeApi } from '../../utils/api';
+import { SpeakerChip } from '../SpeakerChip';
+import { SpeakerDialog } from './SpeakerDialog';
+import { TimestampInput } from './TimestampInput';
+import { TokenInput } from './TokenInput';
+
 
 type Props = {
   token: string
@@ -27,7 +30,6 @@ const Container = styled.div<{ isodd: number }>`
   margin-top: 8px;
   width: 100%;
 
-  ${(props) => props.isodd && `background-color: ${oddColor};`}
   .upper {
     display: flex;
     justify-content: space-between;
@@ -44,6 +46,8 @@ const Container = styled.div<{ isodd: number }>`
     justify-content: flex-end;
     align-items: center;
   }
+
+  ${(props) => props.isodd && `background-color: ${oddColor};`}
 `
 
 const CustomIconButton = styled(IconButton)`
@@ -93,13 +97,17 @@ export const UtteranceEditor = ({
 
   const onSubmit = async (data: FormValues) => {
     data.token = data.token.trim()
+    if (speakerNameState === '') {
+      showSnackbar('話者を選択してください', 'error')
+      return
+    }
     if (typeof dirtyFields.timestamp !== 'undefined') {
       try {
         await postMorphemeApi(episodeId, {
           ...data,
           speaker: speakerNameState,
-        }) // TODO: apply speaker name
-        onDelete()
+        })
+        await onDelete()
         showSnackbar('更新しました', 'success')
         onReload()
       } catch (e) {

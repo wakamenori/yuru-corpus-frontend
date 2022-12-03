@@ -1,9 +1,12 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
-import { Morpheme } from '../../../types/morpheme/morpheme'
-import { SpeakerInfo } from '../types/speaker'
-import { DisplayMode } from './display/DisplayMode'
-import { EditMode } from './edit/EditMode'
+
+
+import { Morpheme } from '../../../types/morpheme/morpheme';
+import { SpeakerInfo } from '../types/speaker';
+import { DisplayMode } from './display/DisplayMode';
+import { EditMode } from './edit/EditMode';
+
 
 type Props = {
   topPosition: number
@@ -11,8 +14,9 @@ type Props = {
   reloadMorphemes: () => void
   speakersInfo: SpeakerInfo
   episodeId: number
-  morphemes: Morpheme[]
   morphemesBySpeaker: { speaker: string; morphemes: Morpheme[] }[]
+  utteranceEditors: JSX.Element[]
+  openSnackbar: (message: string, severity: 'success' | 'error') => void
 }
 
 const Container = styled.div<{ top: number }>`
@@ -28,19 +32,20 @@ const Container = styled.div<{ top: number }>`
 
 export const ScrollArea = ({
   isEdit,
-  morphemes,
   reloadMorphemes,
   topPosition,
   speakersInfo,
   episodeId,
   morphemesBySpeaker,
+  utteranceEditors,
+  openSnackbar,
 }: Props) => {
   return (
     <Container top={Math.floor(topPosition)}>
       <EditMode
-        morphemes={morphemes}
+        openSnackbar={openSnackbar}
+        utteranceEditors={utteranceEditors}
         reloadMorphemes={reloadMorphemes}
-        speakersInfo={speakersInfo}
         episodeId={episodeId}
         display={isEdit}
       />
