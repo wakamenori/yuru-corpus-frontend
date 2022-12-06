@@ -1,4 +1,4 @@
-import { Switch as MuiSwich } from '@mui/material'
+import { Switch as MuiSwitch } from '@mui/material'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import FormGroup from '@mui/material/FormGroup'
 
@@ -9,8 +9,8 @@ type Props = {
 }
 export const Switch = ({ checked, toggle, label }: Props) => {
   return (
-    <FormGroup onClick={toggle}>
-      <FormControlLabel control={<MuiSwich checked={checked} />} label={label} />
+    <FormGroup>
+      <FormControlLabel control={<MuiSwitch checked={checked} onChange={toggle} />} label={label} />
     </FormGroup>
   )
 }
