@@ -1,17 +1,14 @@
-import { DeleteOutlined, HighlightOff, Save } from '@mui/icons-material';
-import { IconButton } from '@mui/material';
-import { useEffect, useMemo, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import styled from 'styled-components';
+import { DeleteOutlined, HighlightOff, Save } from '@mui/icons-material'
+import { IconButton } from '@mui/material'
+import { useEffect, useMemo, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import styled from 'styled-components'
 
-
-
-import { deleteMorphemeApi, postMorphemeApi, putMorphemeApi } from '../../utils/api';
-import { SpeakerChip } from '../SpeakerChip';
-import { SpeakerDialog } from './SpeakerDialog';
-import { TimestampInput } from './TimestampInput';
-import { TokenInput } from './TokenInput';
-
+import { deleteMorphemeApi, postMorphemeApi, putMorphemeApi } from '../../utils/api'
+import { SpeakerChip } from '../SpeakerChip'
+import { SpeakerDialog } from './SpeakerDialog'
+import { TimestampInput } from './TimestampInput'
+import { TokenInput } from './TokenInput'
 
 type Props = {
   token: string
@@ -77,6 +74,7 @@ export const UtteranceEditor = ({
     handleSubmit,
     reset,
     formState: { dirtyFields, errors, isDirty },
+    setFocus,
   } = useForm<FormValues>({
     defaultValues: useMemo(() => ({ timestamp, token }), [timestamp, token]),
   })
@@ -162,10 +160,18 @@ export const UtteranceEditor = ({
       }
     }
   }
+  const clickInput = (name: string) => {
+    setIsEdit(true)
+    setTimeout(() => {
+    setFocus(name)
+    }, 200)
+  }
 
   return (
     <Container isodd={isOdd ? 1 : 0}>
-      <SpeakerDialog open={isDialogOpen} onClose={toggleDialog} onSelect={selectSpeaker} />
+      {isDialogOpen && (
+        <SpeakerDialog open={isDialogOpen} onClose={toggleDialog} onSelect={selectSpeaker} />
+      )}
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className='upper'>
           <div className='upper-left'>
@@ -181,8 +187,9 @@ export const UtteranceEditor = ({
               isValid={errors.timestamp === undefined}
               isDirty={!!dirtyFields.timestamp}
               options={{ required: true }}
-              onClick={() => setIsEdit(true)}
+              onClick={clickInput.bind(null, 'timestamp')}
               inactiveColor={isOdd ? oddColor : '#FFF'}
+              defaultTimestamp={timestamp}
             />
           </div>
           {isEdit && (
@@ -209,8 +216,9 @@ export const UtteranceEditor = ({
           isDirty={!!dirtyFields.token}
           register={register}
           options={{ required: true }}
-          onClick={() => setIsEdit(true)}
+          onClick={clickInput.bind(null, 'token')}
           inactiveColor={isOdd ? oddColor : '#FFF'}
+          defaultToken={token}
         />
       </form>
     </Container>

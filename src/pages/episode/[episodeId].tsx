@@ -65,6 +65,7 @@ const EpisodeDetail: NextPage<Props> = ({ morphemes, summary }) => {
     setIsShowSnackbar(false)
   }
   useEffect(() => {
+    console.log(morphemesState.length)
     const speakerColor = new SpeakerColorGenerator()
     let processingMorphemeSetItem: MorphemeSetItem = {
       speaker: morphemesState[0].speaker,
@@ -102,7 +103,7 @@ const EpisodeDetail: NextPage<Props> = ({ morphemes, summary }) => {
         <UtteranceEditor
           episodeId={summary.id}
           onReload={reloadMorphemes}
-          key={i}
+          key={morphemesState[i].timestamp}
           token={morphemesState[i].token}
           speakerName={morphemesState[i].speaker}
           speakerBackgroundColor={speakersInfo[morphemesState[i].speaker].backgroundColor}
@@ -136,6 +137,7 @@ const EpisodeDetail: NextPage<Props> = ({ morphemes, summary }) => {
         <Panel speakersInfo={speakersInfoState} isEdit={isEdit} toggleIsEdit={toggleIsEdit} />
       </PlayerWithPanel>
       <ScrollArea
+        morphemes={morphemesState}
         openSnackbar={openSnackbar}
         utteranceEditors={utteranceEditorsState}
         episodeId={summary.id}

@@ -19,7 +19,8 @@ export const Pagination = ({ totalPages, page, handleChange }: Props) => {
           count={totalPages}
           page={page}
           onChange={handleChange}
-          siblingCount={siblingCount}
+          // FIXME: Hydration error
+          // siblingCount={siblingCount}
         />
       </Stack>
     </Box>

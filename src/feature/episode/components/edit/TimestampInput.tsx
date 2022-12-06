@@ -9,6 +9,7 @@ type Props = {
   options: RegisterOptions
   onClick: () => void
   inactiveColor: string
+  defaultTimestamp?: string
 }
 
 const Timestamp = styled.input<{
@@ -34,17 +35,22 @@ export const TimestampInput = ({
   isValid,
   register,
   options,
+  defaultTimestamp,
 }: Props) => {
-  return (
-    <Timestamp
-      isedit={isEdit ? 1 : 0}
-      type='time'
-      step={1}
-      isdirty={isDirty ? 1 : 0}
-      isvalid={isValid ? 1 : 0}
-      {...register('timestamp', options)}
-      onClick={onClick}
-      inactivecolor={inactiveColor}
-    />
-  )
+  if (isEdit) {
+    return (
+      <Timestamp
+        isedit={isEdit ? 1 : 0}
+        type='time'
+        step={1}
+        isdirty={isDirty ? 1 : 0}
+        isvalid={isValid ? 1 : 0}
+        {...register('timestamp', options)}
+        onClick={onClick}
+        inactivecolor={inactiveColor}
+      />
+    )
+  } else {
+    return <p onClick={onClick}>{defaultTimestamp}</p>
+  }
 }

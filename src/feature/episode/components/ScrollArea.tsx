@@ -14,6 +14,7 @@ type Props = {
   morphemesBySpeaker: { speaker: string; morphemes: Morpheme[] }[]
   utteranceEditors: JSX.Element[]
   openSnackbar: (message: string, severity: 'success' | 'error') => void
+  morphemes: Morpheme[]
 }
 
 export const ScrollArea = ({
@@ -24,6 +25,7 @@ export const ScrollArea = ({
   morphemesBySpeaker,
   utteranceEditors,
   openSnackbar,
+  morphemes,
 }: Props) => {
   const { width } = useWindowDimensions()
   const headerHeight = width > 600 ? 64 : 56
@@ -47,6 +49,8 @@ export const ScrollArea = ({
         reloadMorphemes={reloadMorphemes}
         episodeId={episodeId}
         display={isEdit}
+        morphemes={morphemes}
+        speakersInfo={speakersInfo}
       />
       <DisplayMode
         morphemesBySpeaker={morphemesBySpeaker}

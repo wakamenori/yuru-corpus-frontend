@@ -10,9 +10,10 @@ type Props = {
   options: RegisterOptions
   onClick: () => void
   inactiveColor: string
+  defaultToken?: string
 }
 
-const Textarea = styled(TextareaAutosize)<{
+const Textarea = styled(TextareaAutosize) <{
   isedit: number
   isvalid: number
   isdirty: number
@@ -35,15 +36,19 @@ export const TokenInput = ({
   register,
   isEdit,
   isDirty,
+  defaultToken,
 }: Props) => {
-  return (
-    <Textarea
-      isedit={isEdit ? 1 : 0}
-      isdirty={isDirty ? 1 : 0}
-      isvalid={isValid ? 1 : 0}
-      {...register('token', options)}
-      onClick={onClick}
-      inactivecolor={inactiveColor}
-    />
-  )
+  if (isEdit) {
+    return (
+      <Textarea
+        isedit={isEdit ? 1 : 0}
+        isdirty={isDirty ? 1 : 0}
+        isvalid={isValid ? 1 : 0}
+        {...register('token', options)}
+        onClick={onClick}
+        inactivecolor={inactiveColor}
+      />)
+  } else {
+    return <p onClick={onClick}>{defaultToken}</p>
+  }
 }
