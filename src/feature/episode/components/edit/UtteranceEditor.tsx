@@ -160,10 +160,10 @@ export const UtteranceEditor = ({
       }
     }
   }
-  const clickInput = (name: string) => {
+  const clickInput = (name: 'timestamp' | 'token') => {
     setIsEdit(true)
     setTimeout(() => {
-    setFocus(name)
+      setFocus(name)
     }, 200)
   }
 
