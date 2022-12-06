@@ -1,9 +1,12 @@
 import { DeleteOutlined, HighlightOff, Save } from '@mui/icons-material'
 import { IconButton } from '@mui/material'
-import { useEffect, useMemo, useState } from 'react'
+import { isAxiosError } from 'axios'
+import { useContext, useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import styled from 'styled-components'
 
+import { Confirmation } from '../../../../components/dialog/Confirmation'
+import { NotificationContext } from '../../../../context/notification'
 import { deleteMorphemeApi, postMorphemeApi, putMorphemeApi } from '../../utils/api'
 import { SpeakerChip } from '../SpeakerChip'
 import { SpeakerDialog } from './SpeakerDialog'
@@ -18,14 +21,13 @@ type Props = {
   speakerBackgroundColor: string
   timestamp: string
   onReload: () => void
-  showSnackbar: (message: string, severity: 'success' | 'error') => void
   isOdd: boolean
 }
 
 const oddColor = '#F3F4F6'
 const Container = styled.div<{ isodd: number }>`
-  margin-top: 8px;
   width: 100%;
+  padding: 0.4rem 1rem;
 
   .upper {
     display: flex;
@@ -39,6 +41,7 @@ const Container = styled.div<{ isodd: number }>`
   }
 
   .buttons {
+    margin-right: 0.5rem;
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -62,7 +65,6 @@ export const UtteranceEditor = ({
   speakerNameColor,
   timestamp,
   speakerBackgroundColor,
-  showSnackbar,
   isOdd,
 }: Props) => {
   type FormValues = {
@@ -78,7 +80,6 @@ export const UtteranceEditor = ({
   } = useForm<FormValues>({
     defaultValues: useMemo(() => ({ timestamp, token }), [timestamp, token]),
   })
-
   useEffect(() => {
     reset({ timestamp, token })
   }, [timestamp, token, reset])
@@ -92,48 +93,60 @@ export const UtteranceEditor = ({
     setSpeakerNameState(speakerName)
   }, [speakerName])
   const isSpeakerNameChanged = speakerNameState !== speakerName
+  const { notify } = useContext(NotificationContext)
+  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false)
+  const toggleConfirmation = () => setIsConfirmationOpen((prev) => !prev)
 
   const onSubmit = async (data: FormValues) => {
     data.token = data.token.trim()
     if (speakerNameState === '') {
-      showSnackbar('話者を選択してください', 'error')
+      toggleDialog()
       return
     }
     if (typeof dirtyFields.timestamp !== 'undefined') {
+      // timestampを編集
       try {
         await postMorphemeApi(episodeId, {
           ...data,
           speaker: speakerNameState,
         })
         await onDelete()
-        showSnackbar('更新しました', 'success')
+        notify('更新しました', 'success')
         onReload()
       } catch (e) {
-        showSnackbar('更新に失敗しました', 'error')
+        if (isAxiosError(e) && e.response && e.response.status === 403) {
+          notify(`${data.timestamp}はすでに存在します 先に削除してください`, 'error')
+        } else {
+          notify('更新に失敗しました', 'error')
+        }
       }
     } else if (typeof dirtyFields.token !== 'undefined' || isSpeakerNameChanged) {
+      // timestampを編集していない
       try {
-        await putMorphemeApi(episodeId, { ...data, speaker: speakerNameState }) // TODO: apply speaker name
-        showSnackbar('更新しました', 'success')
+        await putMorphemeApi(episodeId, { ...data, speaker: speakerNameState })
+        notify('更新しました', 'success')
         onReload()
       } catch (e) {
-        showSnackbar('更新に失敗しました', 'error')
+        notify('更新に失敗しました', 'error')
         console.log(e)
       }
     }
     toggleEdit()
   }
 
-  const onDelete = async () => {
+  const deleteMorpheme = async () => {
     try {
       await deleteMorphemeApi(episodeId, timestamp)
       onReload()
       toggleEdit()
-      showSnackbar('削除しました', 'success')
+      notify('削除しました', 'warn')
     } catch (e) {
-      showSnackbar('削除に失敗しました', 'error')
+      notify('削除に失敗しました', 'error')
       console.log(e)
     }
+  }
+  const onDelete = async () => {
+    toggleConfirmation()
   }
   const onCancel = () => {
     reset()
@@ -153,7 +166,7 @@ export const UtteranceEditor = ({
           timestamp: timestamp,
           speaker: name,
         })
-        showSnackbar('変更しました', 'success')
+        notify('変更しました', 'success')
         onReload()
       } catch (e) {
         console.log(e)
@@ -171,6 +184,15 @@ export const UtteranceEditor = ({
     <Container isodd={isOdd ? 1 : 0}>
       {isDialogOpen && (
         <SpeakerDialog open={isDialogOpen} onClose={toggleDialog} onSelect={selectSpeaker} />
+      )}
+      {isConfirmationOpen && (
+        <Confirmation
+          toggleDialog={toggleConfirmation}
+          onConfirm={deleteMorpheme}
+          title={timestamp}
+          contentText={`「${token}」を削除しますか?`}
+          confirmText='削除'
+        />
       )}
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className='upper'>

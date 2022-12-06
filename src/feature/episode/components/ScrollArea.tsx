@@ -12,8 +12,6 @@ type Props = {
   speakersInfo: SpeakerInfo
   episodeId: number
   morphemesBySpeaker: { speaker: string; morphemes: Morpheme[] }[]
-  utteranceEditors: JSX.Element[]
-  openSnackbar: (message: string, severity: 'success' | 'error') => void
   morphemes: Morpheme[]
 }
 
@@ -23,8 +21,6 @@ export const ScrollArea = ({
   speakersInfo,
   episodeId,
   morphemesBySpeaker,
-  utteranceEditors,
-  openSnackbar,
   morphemes,
 }: Props) => {
   const { width } = useWindowDimensions()
@@ -33,7 +29,7 @@ export const ScrollArea = ({
   const topPosition = Math.floor((width * 9) / 16 + headerHeight + panelHeight)
   const Container = styled.div`
     z-index: 1;
-    padding: 0 0.5rem 5rem;
+    padding-bottom: 100px;
     position: relative;
     @media (min-width: 900px) {
       top: 80px;
@@ -44,8 +40,6 @@ export const ScrollArea = ({
   return (
     <Container>
       <EditMode
-        openSnackbar={openSnackbar}
-        utteranceEditors={utteranceEditors}
         reloadMorphemes={reloadMorphemes}
         episodeId={episodeId}
         display={isEdit}

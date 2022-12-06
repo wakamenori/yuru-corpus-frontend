@@ -1,3 +1,4 @@
+import { CssBaseline } from '@mui/material'
 import { RegisterOptions, UseFormRegister } from 'react-hook-form'
 import styled from 'styled-components'
 
@@ -13,19 +14,26 @@ type Props = {
 }
 
 const Timestamp = styled.input<{
-  isedit: number
   isvalid: number
   isdirty: number
-  inactivecolor: string
 }>`
-  width: 6rem;
+  width: 6.5rem;
   border-radius: 4px;
+  padding: 0;
   margin-left: 0.5rem;
-  border: ${(props) => (props.isedit ? '2px solid #6B7280' : `2px solid ${props.inactivecolor}`)};
-  ${(props) => props.isdirty && 'border 2px solid #1875D1'};
+  border: 2px solid #6b7280 ${(props) => props.isdirty && 'border 2px solid #1875D1'};
+  background-color: ${(props) => (!props.isvalid ? '#FCA5A5' : 'inherit')};
   outline: none;
-
-  background-color: ${(props) => (!props.isvalid ? '#FCA5A5' : props.inactivecolor)};
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
+    Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-size: 1rem;
+`
+const Display = styled.p<{ inactivecolor: string }>`
+  width: 6rem;
+  margin: 0 0 0 0.5rem;
+  font-size: 1rem;
+  padding: 2px;
+  border: 2px solid ${(props) => props.inactivecolor};
 `
 export const TimestampInput = ({
   inactiveColor,
@@ -37,20 +45,27 @@ export const TimestampInput = ({
   options,
   defaultTimestamp,
 }: Props) => {
-  if (isEdit) {
-    return (
-      <Timestamp
-        isedit={isEdit ? 1 : 0}
-        type='time'
-        step={1}
-        isdirty={isDirty ? 1 : 0}
-        isvalid={isValid ? 1 : 0}
-        {...register('timestamp', options)}
-        onClick={onClick}
-        inactivecolor={inactiveColor}
-      />
-    )
-  } else {
-    return <p onClick={onClick}>{defaultTimestamp}</p>
-  }
+  return (
+    <div>
+      {isEdit ? (
+        <>
+          <Timestamp
+            type='time'
+            step={1}
+            isdirty={isDirty ? 1 : 0}
+            isvalid={isValid ? 1 : 0}
+            {...register('timestamp', {
+              ...options,
+              pattern: { value: /([01][0-9]|2[0-3]):([012345][0-9]):([012345][0-9])/, message: '' },
+            })}
+            onClick={onClick}
+          />
+        </>
+      ) : (
+        <Display onClick={onClick} inactivecolor={inactiveColor}>
+          {defaultTimestamp}
+        </Display>
+      )}
+    </div>
+  )
 }

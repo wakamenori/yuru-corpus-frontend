@@ -37,12 +37,10 @@ export const SpeakerDialog = ({ open, onClose, onSelect }: Props) => {
   return (
     <>
       <Dialog onClose={handleClose} open={open}>
-        {/*TODO: wider width*/}
         <Container>
           <List>
             {speakerColorMap.map((speakerColor) => (
               <ListItem
-                button
                 onClick={() => handleListItemClick(speakerColor.name)}
                 key={speakerColor.name}
               >

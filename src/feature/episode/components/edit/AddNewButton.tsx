@@ -3,9 +3,8 @@ import { Fab } from '@mui/material'
 import styled from 'styled-components'
 
 type Props = {
-  onReload: () => void
   isAddNew: boolean
-  toggleAddNew: () => void
+  onClick: () => void
 }
 
 const StyledFab = styled(Fab)`
@@ -14,20 +13,10 @@ const StyledFab = styled(Fab)`
   right: 2rem;
 `
 
-const ModalContainer = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: white;
-  padding: 24px;
-  border-radius: 8px;
-`
-
-export const AddNewButton = ({ onReload, isAddNew, toggleAddNew }: Props) => {
+export const AddNewButton = ({ isAddNew, onClick }: Props) => {
   return (
     <>
-      <StyledFab aria-label='add' onClick={toggleAddNew}>
+      <StyledFab aria-label='add' onClick={onClick}>
         {isAddNew ? <HighlightOff /> : <Add />}
       </StyledFab>
     </>

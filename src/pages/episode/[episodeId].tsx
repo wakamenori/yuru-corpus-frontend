@@ -1,13 +1,12 @@
 import axios from 'axios'
 import { GetStaticPropsResult, NextPage } from 'next'
 import { useCallback, useEffect, useState } from 'react'
+import 'react-toastify/dist/ReactToastify.css'
 import styled from 'styled-components'
 
-import { Snackbar } from '../../components/ui/Snackbar'
 import { Player } from '../../components/youtube/Player'
 import { Header } from '../../feature/episode/components/Header'
 import { ScrollArea } from '../../feature/episode/components/ScrollArea'
-import { UtteranceEditor } from '../../feature/episode/components/edit/UtteranceEditor'
 import { Panel } from '../../feature/episode/components/panel/Panel'
 import { SpeakerInfo } from '../../feature/episode/types/speaker'
 import { getMorphemesApi } from '../../feature/episode/utils/api'
@@ -51,21 +50,8 @@ const EpisodeDetail: NextPage<Props> = ({ morphemes, summary }) => {
 
   const [speakersInfoState, setSpeakersInfoState] = useState<SpeakerInfo>({})
   const [morphemesBySpeakerState, setMorphemesBySpeakerState] = useState<MorphemeSetItem[]>([])
-  const [utteranceEditorsState, setUtteranceEditorsState] = useState<JSX.Element[]>([])
 
-  const [isShowSnackbar, setIsShowSnackbar] = useState(false)
-  const [snackbarMessage, setSnackbarMessage] = useState('')
-  const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success')
-  const openSnackbar = (message: string, severity: 'success' | 'error') => {
-    setSnackbarMessage(message)
-    setSnackbarSeverity(severity)
-    setIsShowSnackbar(true)
-  }
-  const hideSnackbar = () => {
-    setIsShowSnackbar(false)
-  }
   useEffect(() => {
-    console.log(morphemesState.length)
     const speakerColor = new SpeakerColorGenerator()
     let processingMorphemeSetItem: MorphemeSetItem = {
       speaker: morphemesState[0].speaker,
@@ -73,7 +59,6 @@ const EpisodeDetail: NextPage<Props> = ({ morphemes, summary }) => {
     }
     const speakersInfo: SpeakerInfo = {}
     const morphemesBySpeaker: MorphemeSetItem[] = []
-    const utteranceEditors: JSX.Element[] = []
     for (let i = 0; i < morphemesState.length; i++) {
       const speaker = morphemesState[i]?.speaker
       let speakerColorInfo: { color: string; backgroundColor: string }
@@ -99,20 +84,6 @@ const EpisodeDetail: NextPage<Props> = ({ morphemes, summary }) => {
           morphemes: [morphemesState[i]],
         }
       }
-      utteranceEditors.push(
-        <UtteranceEditor
-          episodeId={summary.id}
-          onReload={reloadMorphemes}
-          key={morphemesState[i].timestamp}
-          token={morphemesState[i].token}
-          speakerName={morphemesState[i].speaker}
-          speakerBackgroundColor={speakersInfo[morphemesState[i].speaker].backgroundColor}
-          speakerNameColor={speakerColorInfo.color}
-          timestamp={morphemesState[i].timestamp}
-          showSnackbar={openSnackbar}
-          isOdd={i % 2 === 0}
-        />,
-      )
     }
     morphemesBySpeaker.push(processingMorphemeSetItem)
     for (let speaker in speakersInfo) {
@@ -123,14 +94,10 @@ const EpisodeDetail: NextPage<Props> = ({ morphemes, summary }) => {
 
     setSpeakersInfoState(speakersInfo)
     setMorphemesBySpeakerState(morphemesBySpeaker)
-    setUtteranceEditorsState(utteranceEditors)
   }, [morphemesState, summary.id, reloadMorphemes])
 
   return (
     <>
-      {isShowSnackbar && (
-        <Snackbar message={snackbarMessage} severity={snackbarSeverity} onClose={hideSnackbar} />
-      )}
       <Header title={summary.title} hideOnScloll={false} />
       <PlayerWithPanel>
         <Player videoId={videoId} />
@@ -138,8 +105,6 @@ const EpisodeDetail: NextPage<Props> = ({ morphemes, summary }) => {
       </PlayerWithPanel>
       <ScrollArea
         morphemes={morphemesState}
-        openSnackbar={openSnackbar}
-        utteranceEditors={utteranceEditorsState}
         episodeId={summary.id}
         morphemesBySpeaker={morphemesBySpeakerState}
         speakersInfo={speakersInfoState}

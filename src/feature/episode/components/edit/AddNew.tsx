@@ -1,9 +1,11 @@
 import { Save } from '@mui/icons-material'
 import { IconButton } from '@mui/material'
-import { useState } from 'react'
+import { isAxiosError } from 'axios'
+import { useContext, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import styled from 'styled-components'
 
+import { NotificationContext } from '../../../../context/notification'
 import { postMorphemeApi } from '../../utils/api'
 import { SpeakerChip } from '../SpeakerChip'
 import { SpeakerDialog } from './SpeakerDialog'
@@ -13,11 +15,10 @@ import { TokenInput } from './TokenInput'
 type Props = {
   episodeId: number
   onReload: () => void
-  showSnackbar: (message: string, severity: 'success' | 'error') => void
 }
 
 const Container = styled.div`
-  margin-top: 3rem;
+  padding: 0.4rem 1rem;
 
   .buttons {
     display: flex;
@@ -43,7 +44,7 @@ const CustomIconButton = styled(IconButton)`
   margin-left: 16px;
   padding: 0;
 `
-export const AddNew = ({ showSnackbar, episodeId, onReload }: Props) => {
+export const AddNew = ({ episodeId, onReload }: Props) => {
   type FormValues = {
     timestamp: string
     token: string
@@ -54,6 +55,7 @@ export const AddNew = ({ showSnackbar, episodeId, onReload }: Props) => {
     reset,
     formState: { isDirty, dirtyFields, errors },
   } = useForm<FormValues>({ defaultValues: { timestamp: '', token: '' } })
+  const { notify } = useContext(NotificationContext)
   const onSubmit = async (data: FormValues) => {
     try {
       if (speaker === '話者') {
@@ -68,10 +70,14 @@ export const AddNew = ({ showSnackbar, episodeId, onReload }: Props) => {
       reset()
       setSpeaker('話者')
       onReload()
-      showSnackbar('発話を追加しました', 'success')
+      notify('作成しました', 'success')
     } catch (e) {
-      console.log(e)
-      showSnackbar('発話の追加に失敗しました', 'error')
+      if (isAxiosError(e) && e.response && e.response.status === 403) {
+        notify(`${data.timestamp}はすでに存在します 先に削除してください`, 'error')
+      } else {
+        notify('更新に失敗しました', 'error')
+        console.log(e)
+      }
     }
   }
   const [speakerDialogOpen, setSpeakerDialogOpen] = useState(false)

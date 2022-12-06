@@ -13,7 +13,7 @@ type Props = {
   defaultToken?: string
 }
 
-const Textarea = styled(TextareaAutosize) <{
+const Textarea = styled(TextareaAutosize)<{
   isedit: number
   isvalid: number
   isdirty: number
@@ -26,6 +26,17 @@ const Textarea = styled(TextareaAutosize) <{
   border: ${(props) => (props.isedit ? '2px solid #6B7280' : `2px solid ${props.inactivecolor}`)};
   ${(props) => props.isdirty && 'border 2px solid #1875D1'};
   background-color: ${(props) => (!props.isvalid ? '#FCA5A5' : 'inherit')};
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
+    Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-size: 1rem;
+`
+
+const Display = styled.p<{ inactivecolor: string }>`
+  margin: 0;
+  padding: 2px;
+  border: 2px solid ${(props) => props.inactivecolor};
+  letter-spacing: normal;
+  font-size: 1rem;
 `
 
 export const TokenInput = ({
@@ -47,8 +58,13 @@ export const TokenInput = ({
         {...register('token', options)}
         onClick={onClick}
         inactivecolor={inactiveColor}
-      />)
+      />
+    )
   } else {
-    return <p onClick={onClick}>{defaultToken}</p>
+    return (
+      <Display onClick={onClick} inactivecolor={inactiveColor}>
+        {defaultToken}
+      </Display>
+    )
   }
 }

@@ -9,7 +9,7 @@ type Props = {
 
 const Container = styled.div`
   display: flex;
-  margin-bottom: 8px;
+  margin : 8px;
 
   .right {
     flex: 1;
@@ -26,6 +26,7 @@ const SpeakerColor = styled.div<{ color: string }>`
 const Utterance = styled.p`
   margin: 0.2rem;
   color: #374151;
+  line-height: 1.4;
 `
 
 export const SpeakerSet = ({ speakerColor, morphemes }: Props) => {
