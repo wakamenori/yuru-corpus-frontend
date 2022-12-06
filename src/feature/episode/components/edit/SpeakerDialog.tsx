@@ -1,5 +1,13 @@
 import { Person } from '@mui/icons-material'
-import { Avatar, Dialog, List, ListItem, ListItemAvatar, ListItemText } from '@mui/material'
+import {
+  Avatar,
+  Dialog,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemButton,
+  ListItemText,
+} from '@mui/material'
 import styled from 'styled-components'
 
 import { SpeakerColorGenerator, guestSpeakers, hostSpeakers } from '../../../../utils/speakers'
@@ -11,7 +19,7 @@ type Props = {
 }
 
 const Container = styled.div`
-  width: 150px;
+  width: 200px;
 `
 
 export const SpeakerDialog = ({ open, onClose, onSelect }: Props) => {
@@ -44,12 +52,16 @@ export const SpeakerDialog = ({ open, onClose, onSelect }: Props) => {
                 onClick={() => handleListItemClick(speakerColor.name)}
                 key={speakerColor.name}
               >
-                <ListItemAvatar>
-                  <Avatar sx={{ bgcolor: speakerColor.backGroundColor, color: speakerColor.color }}>
-                    <Person />
-                  </Avatar>
-                </ListItemAvatar>
-                <ListItemText primary={speakerColor.name} />
+                <ListItemButton>
+                  <ListItemAvatar>
+                    <Avatar
+                      sx={{ bgcolor: speakerColor.backGroundColor, color: speakerColor.color }}
+                    >
+                      <Person />
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItemText primary={speakerColor.name} />
+                </ListItemButton>
               </ListItem>
             ))}
           </List>
