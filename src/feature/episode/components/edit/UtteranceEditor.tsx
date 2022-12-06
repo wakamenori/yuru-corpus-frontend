@@ -85,9 +85,6 @@ export const UtteranceEditor = ({
   }, [timestamp, token, reset])
 
   const [isEdit, setIsEdit] = useState(false)
-  useEffect(() => {
-    console.log({isEdit})
-  }, [])
   const toggleEdit = () => setIsEdit((prev) => !prev)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const toggleDialog = () => setIsDialogOpen((prev) => !prev)
