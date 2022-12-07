@@ -1,16 +1,26 @@
-import { CssBaseline } from '@mui/material'
-import { RegisterOptions, UseFormRegister } from 'react-hook-form'
+import { TextField } from '@mui/material'
+import { styled as styledMui } from '@mui/material/styles'
+import { DateTimePicker, LocalizationProvider, TimePicker } from '@mui/x-date-pickers'
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
+import ja from 'date-fns/locale/ja'
+import {
+  Control,
+  Controller,
+  RegisterOptions,
+  SetFieldValue,
+  UseFormRegister,
+} from 'react-hook-form'
 import styled from 'styled-components'
 
 type Props = {
   isValid: boolean
   isEdit: boolean
-  isDirty: boolean
-  register: UseFormRegister<any>
   options: RegisterOptions
   onClick: () => void
   inactiveColor: string
   defaultTimestamp?: string
+  setValue: SetFieldValue<any>
+  control: Control<any>
 }
 
 const Timestamp = styled.input<{
@@ -28,6 +38,20 @@ const Timestamp = styled.input<{
     Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   font-size: 1rem;
 `
+const StyledTextField = styledMui(TextField)({
+  paddingLeft: '0.5rem',
+  '& .MuiInputBase-input': {
+    padding: '2px',
+    paddingLeft: '0.3rem',
+  },
+  '& .MuiIconButton-root': {
+    padding: '2px',
+    paddingRight: '0.3rem',
+    height: '24px',
+    width: '24px',
+  },
+})
+
 const Display = styled.p<{ inactivecolor: string }>`
   width: 6rem;
   margin: 0 0 0 0.5rem;
@@ -39,26 +63,47 @@ export const TimestampInput = ({
   inactiveColor,
   onClick,
   isEdit,
-  isDirty,
   isValid,
-  register,
   options,
   defaultTimestamp,
+  control,
+  setValue,
 }: Props) => {
   return (
     <div>
       {isEdit ? (
         <>
-          <Timestamp
-            type='time'
-            step={1}
-            isdirty={isDirty ? 1 : 0}
-            isvalid={isValid ? 1 : 0}
-            {...register('timestamp', {
+          <Controller
+            name='timestamp'
+            control={control}
+            rules={{
               ...options,
-              pattern: { value: /([01][0-9]|2[0-3]):([012345][0-9]):([012345][0-9])/, message: '' },
-            })}
-            onClick={onClick}
+              validate: (date: any) => date instanceof Date && !isNaN(date.getTime()),
+            }}
+            defaultValue={new Date(`2020-01-01T${defaultTimestamp}+0900`)}
+            render={({ field }) => {
+              return (
+                <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ja}>
+                  <TimePicker
+                    {...field}
+                    views={['hours', 'minutes', 'seconds']}
+                    inputFormat='HH:mm:ss'
+                    mask='__:__:__'
+                    renderInput={(props) => (
+                      <StyledTextField
+                        {...props}
+                        sx={{ width: '7.5rem', paddingleft: '0.5rem' }}
+                        size='small'
+                        error={!isValid}
+                      />
+                    )}
+                    onChange={(newValue) => {
+                      setValue('timestamp', newValue, { shouldValidate: true, shouldDirty: true })
+                    }}
+                  />
+                </LocalizationProvider>
+              )
+            }}
           />
         </>
       ) : (

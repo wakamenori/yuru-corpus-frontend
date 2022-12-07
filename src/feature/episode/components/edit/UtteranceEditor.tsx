@@ -23,6 +23,19 @@ type Props = {
   onReload: () => void
   isOdd: boolean
 }
+const getTimestamp = (date: Date) => {
+  const pad2Digit = (n: number) => String(n).padStart(2, '0')
+  const hours = pad2Digit(date.getHours())
+  const minutes = pad2Digit(date.getMinutes())
+  const seconds = pad2Digit(date.getSeconds())
+  return `${hours}:${minutes}:${seconds}`
+}
+
+const getDate = (timestamp: string): Date => {
+  const date = new Date(`2021-09-01T${timestamp}.000+0900`)
+  // console.log(date)
+  return date
+}
 
 const oddColor = '#F3F4F6'
 const Container = styled.div<{ isodd: number }>`
@@ -68,21 +81,25 @@ export const UtteranceEditor = ({
   isOdd,
 }: Props) => {
   type FormValues = {
-    timestamp: string
+    timestamp: Date
     token: string
   }
   const {
     register,
     handleSubmit,
+    control,
     reset,
     formState: { dirtyFields, errors, isDirty },
     setFocus,
     setValue,
   } = useForm<FormValues>({
-    defaultValues: useMemo(() => ({ timestamp, token }), [timestamp, token]),
+    defaultValues: useMemo(() => {
+      return { timestamp: getDate(timestamp), token }
+    }, [timestamp, token]),
   })
   useEffect(() => {
-    reset({ timestamp, token })
+    // console.log("useEffect")
+    reset({ timestamp: getDate(timestamp), token })
   }, [timestamp, token, reset])
 
   const [isEdit, setIsEdit] = useState(false)
@@ -99,6 +116,7 @@ export const UtteranceEditor = ({
   const toggleConfirmation = () => setIsConfirmationOpen((prev) => !prev)
 
   const onSubmit = async (data: FormValues) => {
+    console.log({"submit": data})
     data.token = data.token.trim()
     setValue('token', data.token)
     if (speakerNameState === '') {
@@ -110,14 +128,16 @@ export const UtteranceEditor = ({
       try {
         await postMorphemeApi(episodeId, {
           ...data,
+          timestamp: getTimestamp(data.timestamp),
           speaker: speakerNameState,
         })
         await deleteMorphemeApi(episodeId, timestamp)
         notify('更新しました', 'success')
         onReload()
+        toggleEdit()
       } catch (e) {
         if (isAxiosError(e) && e.response && e.response.status === 403) {
-          notify(`${data.timestamp}はすでに存在します 先に削除してください`, 'error')
+          notify(`${getTimestamp(data.timestamp)}はすでに存在します 先に削除してください`, 'error')
         } else {
           notify('更新に失敗しました', 'error')
         }
@@ -125,15 +145,19 @@ export const UtteranceEditor = ({
     } else if (typeof dirtyFields.token !== 'undefined' || isSpeakerNameChanged) {
       // timestampを編集していない
       try {
-        await putMorphemeApi(episodeId, { ...data, speaker: speakerNameState })
+        await putMorphemeApi(episodeId, {
+          ...data,
+          timestamp: getTimestamp(data.timestamp),
+          speaker: speakerNameState,
+        })
         notify('更新しました', 'success')
         onReload()
+        toggleEdit()
       } catch (e) {
         notify('更新に失敗しました', 'error')
         console.log(e)
       }
     }
-    toggleEdit()
   }
 
   const deleteMorpheme = async () => {
@@ -207,10 +231,10 @@ export const UtteranceEditor = ({
               onClick={toggleDialog}
             />
             <TimestampInput
-              register={register}
+              control={control}
+              setValue={setValue}
               isEdit={isEdit}
               isValid={errors.timestamp === undefined}
-              isDirty={!!dirtyFields.timestamp}
               options={{ required: true }}
               onClick={clickInput.bind(null, 'timestamp')}
               inactiveColor={isOdd ? oddColor : '#FFF'}

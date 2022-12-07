@@ -38,6 +38,14 @@ const Container = styled.div`
   }
 `
 
+const getTimestamp = (date: Date) => {
+  const pad2Digit = (n: number) => String(n).padStart(2, '0')
+  const hours = pad2Digit(date.getHours())
+  const minutes = pad2Digit(date.getMinutes())
+  const seconds = pad2Digit(date.getSeconds())
+  return `${hours}:${minutes}:${seconds}`
+}
+
 const CustomIconButton = styled(IconButton)`
   width: 20px;
   height: 20px;
@@ -46,24 +54,29 @@ const CustomIconButton = styled(IconButton)`
 `
 export const AddNew = ({ episodeId, onReload }: Props) => {
   type FormValues = {
-    timestamp: string
+    timestamp: Date
     token: string
   }
   const {
     register,
     handleSubmit,
     reset,
+    control,
+    setValue,
     formState: { isDirty, dirtyFields, errors },
-  } = useForm<FormValues>({ defaultValues: { timestamp: '', token: '' } })
+  } = useForm<FormValues>({
+    defaultValues: { timestamp: new Date('2020-01-01T00:00:00+0900'), token: '' },
+  })
   const { notify } = useContext(NotificationContext)
   const onSubmit = async (data: FormValues) => {
+    const timestamp = getTimestamp(data.timestamp)
     try {
       if (speaker === '話者') {
         toggleSpeakerDialog()
         return
       }
       await postMorphemeApi(episodeId, {
-        timestamp: data.timestamp,
+        timestamp: timestamp,
         token: data.token,
         speaker: speaker,
       })
@@ -73,7 +86,7 @@ export const AddNew = ({ episodeId, onReload }: Props) => {
       notify('作成しました', 'success')
     } catch (e) {
       if (isAxiosError(e) && e.response && e.response.status === 403) {
-        notify(`${data.timestamp}はすでに存在します 先に削除してください`, 'error')
+        notify(`${getTimestamp(data.timestamp)}はすでに存在します 先に削除してください`, 'error')
       } else {
         notify('更新に失敗しました', 'error')
         console.log(e)
@@ -103,13 +116,14 @@ export const AddNew = ({ episodeId, onReload }: Props) => {
               onClick={toggleSpeakerDialog}
             />
             <TimestampInput
+              control={control}
+              setValue={setValue}
               isEdit={true}
-              register={register}
-              isDirty={dirtyFields.timestamp !== undefined}
               isValid={errors.timestamp === undefined}
               options={{ required: true }}
               onClick={() => {}}
               inactiveColor='#FFF'
+              defaultTimestamp='00:00:00'
             />
           </div>
           <div className={'buttons'}>
