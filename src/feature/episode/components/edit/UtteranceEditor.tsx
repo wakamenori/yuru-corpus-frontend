@@ -77,6 +77,7 @@ export const UtteranceEditor = ({
     reset,
     formState: { dirtyFields, errors, isDirty },
     setFocus,
+    setValue,
   } = useForm<FormValues>({
     defaultValues: useMemo(() => ({ timestamp, token }), [timestamp, token]),
   })
@@ -99,6 +100,7 @@ export const UtteranceEditor = ({
 
   const onSubmit = async (data: FormValues) => {
     data.token = data.token.trim()
+    setValue('token', data.token)
     if (speakerNameState === '') {
       toggleDialog()
       return
@@ -110,7 +112,7 @@ export const UtteranceEditor = ({
           ...data,
           speaker: speakerNameState,
         })
-        await onDelete()
+        await deleteMorphemeApi(episodeId, timestamp)
         notify('更新しました', 'success')
         onReload()
       } catch (e) {
@@ -135,11 +137,12 @@ export const UtteranceEditor = ({
   }
 
   const deleteMorpheme = async () => {
+    toggleConfirmation()
     try {
       await deleteMorphemeApi(episodeId, timestamp)
-      onReload()
       toggleEdit()
       notify('削除しました', 'warn')
+      onReload()
     } catch (e) {
       notify('削除に失敗しました', 'error')
       console.log(e)
