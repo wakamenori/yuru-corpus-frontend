@@ -56,9 +56,7 @@ export const Search = () => {
         placeholder='Search…'
         inputProps={{ 'aria-label': 'search' }}
         onKeyPress={(e:any) => {
-          // e.keyCodeは常に0になる
           if (e.key === 'Enter') {
-            // エンターキー押下時の処理
             router.push(`search/?string=${e.target.value}`)
           }
         }}

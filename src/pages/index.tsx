@@ -67,5 +67,13 @@ const Home: NextPage = () => {
     </div>
   )
 }
+export async function getStaticProps() {
+  return {
+    redirect: {
+      permanent: false,
+      destination: '/episode'
+    },
+  }}
 
-export default Home
+
+  export default Home

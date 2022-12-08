@@ -75,30 +75,16 @@ const Search: NextPage<Props> = ({}) => {
   }
   return (
     <>
-      <Box marginTop={{ xs: 9, sm: 11 }}  marginLeft={3}>
+      <Box marginTop={{ xs: 9, sm: 11 }} marginLeft={3}>
         {loading ? <CircularProgress /> : <p>検索結果:{filteredSummary.length}件</p>}
       </Box>
-      <CardList summary={summarySlice} />
+      <Box marginBottom={{ xs: 9, sm: 9 }}>
+        <CardList summary={summarySlice} />
+      </Box>
 
       <Pagination totalPages={totalPages} page={page} handleChange={handleChange} />
     </>
   )
 }
-
-type SummaryResponse = {
-  summary: Summary[]
-}
-
-// export async function getStaticProps(): Promise<GetStaticPropsResult<Props>> {
-//   try {
-//     const { data } = await axios.get<SummaryResponse>(
-//       `${process.env.NEXT_PUBLIC_API_ROOT}/summary/`,
-//     )
-//     return { props: { summary: data.summary.filter((summary) => summary.isAnalyzed) } }
-//   } catch (error) {
-//     console.log(error)
-//     return { notFound: true }
-//   }
-// }
 
 export default Search
