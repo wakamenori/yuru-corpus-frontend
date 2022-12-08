@@ -6,6 +6,7 @@ import { KeyboardEvent, MouseEvent, useState } from 'react'
 
 import { Drawer } from './Drawer'
 import { Logo } from './Logo'
+import {Search} from './Search'
 
 const theme = createTheme({
   palette: {
@@ -49,7 +50,7 @@ export const AppBar = () => {
             >
               <Menu />
             </IconButton>
-            <Logo />
+            <Search />
           </Toolbar>
         </MuiAppBar>
         <Drawer
