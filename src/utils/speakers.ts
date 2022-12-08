@@ -12,6 +12,8 @@ const guestSpeakerColors: SpeakerColor = {
   1: { backgroundColor: '#4E6F77', color: '#FFFFFF' },
   2: { backgroundColor: '#2D5F8B', color: '#FFFFFF' },
   3: { backgroundColor: '#3F3D48', color: '#FFFFFF' },
+  4: { backgroundColor: '#2D5F8B', color: '#FFFFFF' },
+  5: { backgroundColor: '#3F3D48', color: '#FFFFFF' },
 }
 
 class SpeakerColorGenerator {
@@ -30,6 +32,6 @@ class SpeakerColorGenerator {
 }
 
 const hostSpeakers = ['水野', '堀元']
-const guestSpeakers = ['嶋村', '福田', '今井', '黒島']
+const guestSpeakers = ['嶋村', '福田', '今井', '黒島', '武藤', '他']
 
 export { SpeakerColorGenerator, hostSpeakers, guestSpeakers }
