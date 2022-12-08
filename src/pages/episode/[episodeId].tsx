@@ -147,11 +147,8 @@ export const getStaticPaths = async () => {
     paths: allEpisodes.summary
       .filter((summary) => summary.isAnalyzed)
       .map((episode) => ({ params: { episodeId: episode.id.toString() } })),
-    fallback: false,
-  }
-    paths: allEpisodes.summary.filter(summary => summary.isAnalyzed).map((episode) => ({ params: { episodeId: episode.id.toString() } })),
     fallback: "blocking",
-  };
+  }
 }
 
 export default EpisodeDetail
