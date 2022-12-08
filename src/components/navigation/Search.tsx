@@ -1,6 +1,7 @@
 import SearchIcon from '@mui/icons-material/Search'
 import InputBase from '@mui/material/InputBase'
 import { alpha, styled } from '@mui/material/styles'
+import { useRouter } from 'next/router'
 
 export const SearchDiv = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -45,12 +46,31 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }))
 
 export const Search = () => {
+  const router = useRouter()
+
+  const input = document.getElementById('first_name')
+
+  input?.addEventListener('input', (event) => {
+    const target = event.target as HTMLInputElement
+
+    console.log(target.value)
+  })
   return (
     <SearchDiv>
       <SearchIconWrapper>
         <SearchIcon />
       </SearchIconWrapper>
-      <StyledInputBase placeholder='Search…' inputProps={{ 'aria-label': 'search' }} />
+      <StyledInputBase
+        placeholder='Search…'
+        inputProps={{ 'aria-label': 'search' }}
+        onKeyPress={(e:any) => {
+          // e.keyCodeは常に0になる
+          if (e.key === 'Enter') {
+            // エンターキー押下時の処理
+            router.push(`search/?string=${e.target.value}`)
+          }
+        }}
+      />
     </SearchDiv>
   )
 }

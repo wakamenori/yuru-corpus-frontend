@@ -1,3 +1,4 @@
+import { Box } from '@mui/material'
 import axios from 'axios'
 import { GetStaticPropsResult, NextPage } from 'next'
 import { ChangeEvent, useState } from 'react'
@@ -23,7 +24,9 @@ const Episode: NextPage<Props> = ({ summary }) => {
 
   return (
     <>
-      <CardList summary={summarySlice} />
+      <Box marginTop={{ xs: 8, sm: 10 }} marginBottom={{ xs: 9, sm: 9 }}>
+        <CardList summary={summarySlice} />
+      </Box>
       <Pagination totalPages={totalPages} page={page} handleChange={handleChange} />
     </>
   )

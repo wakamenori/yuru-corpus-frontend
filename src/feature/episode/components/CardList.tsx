@@ -9,7 +9,7 @@ type Props = {
 
 export const CardList = ({ summary }: Props) => {
   return (
-    <Box marginTop={{ xs: 8, sm: 10 }} marginBottom={{ xs: 9, sm: 9 }}>
+    <Box>
       <Grid container rowSpacing={{ xs: 1, sm: 2 }}>
         {summary.map((item) => (
           <Card {...item} key={item.id} />
