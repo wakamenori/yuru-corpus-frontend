@@ -47,14 +47,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export const Search = () => {
   const router = useRouter()
-
-  const input = document.getElementById('first_name')
-
-  input?.addEventListener('input', (event) => {
-    const target = event.target as HTMLInputElement
-
-    console.log(target.value)
-  })
   return (
     <SearchDiv>
       <SearchIconWrapper>
