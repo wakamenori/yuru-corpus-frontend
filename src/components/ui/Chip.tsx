@@ -1,7 +1,7 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 type Props = {
-  label: string;
+  label: string
 }
 
 const StyledChip = styled.span`
@@ -15,6 +15,6 @@ const StyledChip = styled.span`
   }
 `
 
-export const Chip = ({label}: Props) => {
+export const Chip = ({ label }: Props) => {
   return <StyledChip>{label}</StyledChip>
 }
