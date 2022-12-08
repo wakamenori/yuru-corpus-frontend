@@ -1,9 +1,9 @@
-import {Box, CardActionArea, Grid} from "@mui/material";
-import {Summary} from "../../../types/episode/summary";
-import styled from "styled-components"
-import {Chip} from "../../../components/ui/Chip"
-import Link from "next/link"
+import { Box, CardActionArea, Grid } from '@mui/material'
+import Link from 'next/link'
+import styled from 'styled-components'
 
+import { Chip } from '../../../components/ui/Chip'
+import { Summary } from '../../../types/episode/summary'
 
 const StyledImg = styled.img`
   width: 256px;
@@ -31,27 +31,31 @@ const StyledTitle = styled.p`
   }
 `
 
-
 export const Card = (summary: Summary) => {
   return (
     <Grid item xs={12} md={12} lg={6}>
       <Link href={`/episode/${summary.id}`}>
         <CardActionArea>
-          <Box sx={{display: 'flex', borderRadius: 1, overflow: "hidden", boxShadow: 4, mr: 1, ml: 1}}>
-            <Box justifyContent="center" alignItems="center" textAlign="center" display="flex">
-              <StyledImg
-                src={summary.thumbnailUrl}
-              />
+          <Box
+            sx={{
+              display: 'flex',
+              borderRadius: 1,
+              overflow: 'hidden',
+              boxShadow: 4,
+              mr: 1,
+              ml: 1,
+            }}
+          >
+            <Box justifyContent='center' alignItems='center' textAlign='center' display='flex'>
+              <StyledImg src={summary.thumbnailUrl} />
             </Box>
-            <Box sx={{pl: 1, pr: 1}}>
-              <StyledTitle>
-                {summary.title}
-              </StyledTitle>
-              <Chip label={summary.publicationDate.replace(/-/g, "/")}/>
+            <Box sx={{ pl: 1, pr: 1 }}>
+              <StyledTitle>{summary.title}</StyledTitle>
+              <Chip label={summary.publicationDate.replace(/-/g, '/')} />
             </Box>
           </Box>
         </CardActionArea>
       </Link>
     </Grid>
-  );
+  )
 }
