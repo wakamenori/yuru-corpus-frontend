@@ -9,7 +9,16 @@ const nextConfig = () => {
     swcMinify: true,
     env: {
       NEXT_PUBLIC_API_ROOT: isProd ? prodApiRoot : devApiRoot
-    }
+    },
+    async redirects() {
+      return [
+        {
+          source: '/',
+          destination: '/episode',
+          permanent: true,
+        },
+      ]
+    },
   }
 }
 
