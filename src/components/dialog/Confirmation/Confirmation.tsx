@@ -7,7 +7,7 @@ import {
   DialogTitle,
 } from '@mui/material'
 
-type Props = {
+export type Props = {
   toggleDialog: () => void
   title: string
   onConfirm: () => void
