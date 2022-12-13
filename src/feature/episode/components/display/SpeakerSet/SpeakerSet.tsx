@@ -1,15 +1,15 @@
 import styled from 'styled-components'
 
-import { Morpheme } from '../../../../types/morpheme/morpheme'
+import { Morpheme } from '../../../../../types/morpheme/morpheme'
 
-type Props = {
+export type Props = {
   morphemes: Morpheme[]
   speakerColor: string
 }
 
 const Container = styled.div`
   display: flex;
-  margin : 8px;
+  margin: 8px;
 
   .right {
     flex: 1;

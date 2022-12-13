@@ -3,7 +3,7 @@ import { AppBar, IconButton, Toolbar } from '@mui/material'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 
-type Props = {
+export type Props = {
   title: string
   hideOnScloll?: boolean
 }

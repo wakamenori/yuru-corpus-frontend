@@ -1,7 +1,7 @@
 import { Slide, useScrollTrigger } from '@mui/material'
 import { ReactElement } from 'react'
 
-type Props = {
+export type Props = {
   window?: () => Window
   children: ReactElement
   enabled?: boolean

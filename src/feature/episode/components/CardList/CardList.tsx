@@ -1,9 +1,9 @@
 import { Box, Grid } from '@mui/material'
 
-import { Summary } from '../../../types/episode/summary'
-import { Card } from './Card'
+import { Summary } from '../../../../types/episode/summary'
+import { Card } from '../Card'
 
-type Props = {
+export type Props = {
   summary: Summary[]
 }
 

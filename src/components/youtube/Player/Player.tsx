@@ -1,7 +1,7 @@
 import { memo } from 'react'
 import styled from 'styled-components'
 
-type Props = {
+export type Props = {
   videoId: string
 }
 

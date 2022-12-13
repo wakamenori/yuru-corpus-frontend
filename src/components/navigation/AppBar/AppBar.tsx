@@ -4,9 +4,8 @@ import { ThemeProvider, createTheme } from '@mui/material/styles'
 import { useRouter } from 'next/router'
 import { KeyboardEvent, MouseEvent, useState } from 'react'
 
-import { Drawer } from './Drawer'
-import { Logo } from './Logo'
-import {Search} from './Search'
+import { Drawer } from '../Drawer'
+import { Search } from '../Search'
 
 const theme = createTheme({
   palette: {

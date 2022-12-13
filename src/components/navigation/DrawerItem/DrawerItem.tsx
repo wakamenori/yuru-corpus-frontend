@@ -1,6 +1,6 @@
 import { ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
 
-type Props = {
+export type Props = {
   icon: JSX.Element
   text: string
   onClick: () => void

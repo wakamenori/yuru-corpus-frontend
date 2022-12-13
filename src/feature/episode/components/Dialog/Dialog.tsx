@@ -10,7 +10,7 @@ import {
 import Button from '@mui/material/Button'
 import { useState } from 'react'
 
-type Props = {
+export type Props = {
   title: string
   content: string
   cancelText: string

@@ -1,14 +1,14 @@
 import styled from 'styled-components'
 
-import { Morpheme } from '../../../../types/morpheme/morpheme'
-import { SpeakerInfo } from '../../types/speaker'
-import { SpeakerSet } from './SpeakerSet'
+import { Morpheme } from '../../../../../types/morpheme/morpheme'
+import { SpeakerInfo } from '../../../types/speaker'
+import { SpeakerSet } from '../SpeakerSet'
 
 const Container = styled.div<{ display: number }>`
   display: ${(props) => (props.display ? 'block' : 'none')};
 `
 
-type Props = {
+export type Props = {
   speakersInfo: SpeakerInfo
   morphemesBySpeaker: { speaker: string; morphemes: Morpheme[] }[]
   display: boolean

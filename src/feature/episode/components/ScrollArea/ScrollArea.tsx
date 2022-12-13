@@ -1,11 +1,11 @@
 import styled from 'styled-components'
 
-import { Morpheme } from '../../../types/morpheme/morpheme'
-import { SpeakerInfo } from '../types/speaker'
-import { DisplayMode } from './display/DisplayMode'
-import { EditMode } from './edit/EditMode'
+import { Morpheme } from '../../../../types/morpheme/morpheme'
+import { SpeakerInfo } from '../../types/speaker'
+import { DisplayMode } from '../display/DisplayMode'
+import { EditMode } from '../edit/EditMode'
 
-type Props = {
+export type Props = {
   isEdit: boolean
   reloadMorphemes: () => void
   speakersInfo: SpeakerInfo

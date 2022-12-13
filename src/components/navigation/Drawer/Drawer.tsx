@@ -4,9 +4,9 @@ import MuiDrawer from '@mui/material/Drawer'
 import { useRouter } from 'next/router'
 import { KeyboardEvent, MouseEvent } from 'react'
 
-import { DrawerItem } from './DrawerItem'
+import { DrawerItem } from '../DrawerItem'
 
-type Props = {
+export type Props = {
   appBarRowNumber?: number
   open: boolean
   toggleDrawer: (event: KeyboardEvent | MouseEvent) => void

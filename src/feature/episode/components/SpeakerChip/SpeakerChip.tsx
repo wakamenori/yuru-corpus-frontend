@@ -1,6 +1,6 @@
 // import styled from 'styled-components'
 
-type Props = {
+export type Props = {
   backgroundColor: string
   label: string
   labelColor: string
@@ -23,7 +23,6 @@ type Props = {
 //   align-items: center;
 //   justify-content: center;
 // `
-
 
 export const SpeakerChip = ({ backgroundColor, label, labelColor, onClick }: Props) => {
   const style = {
