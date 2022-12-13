@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 
-import { SpeakerInfo } from '../../types/speaker'
+import { SpeakerInfo } from '../../../types/speaker'
 
-type Props = {
+export type Props = {
   speakersInfo: SpeakerInfo
 }
 

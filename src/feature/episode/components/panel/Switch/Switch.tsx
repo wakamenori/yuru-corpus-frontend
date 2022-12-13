@@ -2,7 +2,7 @@ import { Switch as MuiSwitch } from '@mui/material'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import FormGroup from '@mui/material/FormGroup'
 
-type Props = {
+export type Props = {
   checked: boolean
   toggle: () => void
   label: string

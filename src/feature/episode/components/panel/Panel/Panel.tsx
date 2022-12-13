@@ -1,13 +1,13 @@
 import styled from 'styled-components'
 
-import { HideOnScroll } from '../../../../components/ui/HideOnScroll'
-import { useWindowDimensions } from '../../../../hooks/use-window-dimensions'
-import { SpeakerInfo } from '../../types/speaker'
-import { SpeakerChip } from '../SpeakerChip'
-import { Progress } from './Progress'
-import { Switch } from './Switch'
+import { HideOnScroll } from '../../../../../components/ui/HideOnScroll'
+import { useWindowDimensions } from '../../../../../hooks/use-window-dimensions'
+import { SpeakerInfo } from '../../../types/speaker'
+import { SpeakerChip } from '../../SpeakerChip'
+import { Progress } from '../Progress'
+import { Switch } from '../Switch'
 
-type Props = {
+export type Props = {
   isEdit: boolean
   toggleIsEdit: () => void
   speakersInfo: SpeakerInfo
