@@ -9,4 +9,4 @@ export default {
 
 const Template: Story = () => <Search />
 
-export const Sample = Template.bind({})
+export const Example = Template.bind({})

@@ -9,7 +9,7 @@ export default {
 
 const Template: Story<Props> = (args) => <CardList {...args} />
 
-export const Sample = Template.bind({})
-Sample.args = {
+export const Example = Template.bind({})
+Example.args = {
   summary: [],
 }

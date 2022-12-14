@@ -18,4 +18,4 @@ const summary = {
 
 const Template: Story = () => <Card {...summary} />
 
-export const Sample = Template.bind({})
+export const Example = Template.bind({})

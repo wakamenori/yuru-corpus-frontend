@@ -9,8 +9,8 @@ export default {
 
 const Template: Story<Props> = (args) => <SpeakerSet {...args} />
 
-export const Sample = Template.bind({})
-Sample.args = {
+export const Example = Template.bind({})
+Example.args = {
   morphemes: [
     {
       timestamp: '00:00:01',

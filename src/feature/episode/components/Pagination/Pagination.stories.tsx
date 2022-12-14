@@ -9,8 +9,8 @@ export default {
 
 const Template: Story<Props> = (args) => <Pagination {...args} />
 
-export const Sample = Template.bind({})
-Sample.args = {
+export const Example = Template.bind({})
+Example.args = {
   totalPages: 10,
   page: 2,
   handleChange: () => {},

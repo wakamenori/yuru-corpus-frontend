@@ -9,8 +9,8 @@ export default {
 
 const Template: Story<Props> = (args) => <Switch {...args} />
 
-export const Sample = Template.bind({})
-Sample.args = {
+export const Example = Template.bind({})
+Example.args = {
   checked: true,
   toggle: () => {},
   label: 'aaa',

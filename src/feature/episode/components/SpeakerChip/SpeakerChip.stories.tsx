@@ -9,8 +9,8 @@ export default {
 
 const Template: Story<Props> = (args) => <SpeakerChip {...args} />
 
-export const Sample = Template.bind({})
-Sample.args = {
+export const Example = Template.bind({})
+Example.args = {
   backgroundColor: 'black',
   label: 'aaa',
   labelColor: 'white',
