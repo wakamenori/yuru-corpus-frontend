@@ -5,14 +5,14 @@ import { useContext, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import styled from 'styled-components'
 
-import { NotificationContext } from '../../../../context/notification'
-import { postMorphemeApi } from '../../utils/api'
-import { SpeakerChip } from '../SpeakerChip'
-import { SpeakerDialog } from './SpeakerDialog'
-import { TimestampInput } from './TimestampInput'
-import { TokenInput } from './TokenInput'
+import { NotificationContext } from '../../../../../context/notification'
+import { postMorphemeApi } from '../../../utils/api'
+import { SpeakerChip } from '../../SpeakerChip'
+import { SpeakerDialog } from '../SpeakerDialog'
+import { TimestampInput } from '../TimestampInput'
+import { TokenInput } from '../TokenInput'
 
-type Props = {
+export type Props = {
   episodeId: number
   onReload: () => void
 }

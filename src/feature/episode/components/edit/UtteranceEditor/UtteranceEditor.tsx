@@ -5,15 +5,15 @@ import { useContext, useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import styled from 'styled-components'
 
-import { Confirmation } from '../../../../components/dialog/Confirmation'
-import { NotificationContext } from '../../../../context/notification'
-import { deleteMorphemeApi, postMorphemeApi, putMorphemeApi } from '../../utils/api'
-import { SpeakerChip } from '../SpeakerChip'
-import { SpeakerDialog } from './SpeakerDialog'
-import { TimestampInput } from './TimestampInput'
-import { TokenInput } from './TokenInput'
+import { Confirmation } from '../../../../../components/dialog/Confirmation'
+import { NotificationContext } from '../../../../../context/notification'
+import { deleteMorphemeApi, postMorphemeApi, putMorphemeApi } from '../../../utils/api'
+import { SpeakerChip } from '../../SpeakerChip'
+import { SpeakerDialog } from '../SpeakerDialog'
+import { TimestampInput } from '../TimestampInput'
+import { TokenInput } from '../TokenInput'
 
-type Props = {
+export type Props = {
   token: string
   episodeId: number
   speakerName: string
@@ -116,7 +116,7 @@ export const UtteranceEditor = ({
   const toggleConfirmation = () => setIsConfirmationOpen((prev) => !prev)
 
   const onSubmit = async (data: FormValues) => {
-    console.log({"submit": data})
+    console.log({ submit: data })
     data.token = data.token.trim()
     setValue('token', data.token)
     if (speakerNameState === '') {
