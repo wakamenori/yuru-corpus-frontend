@@ -9,8 +9,8 @@ export default {
 
 const Template: Story<Props> = (args) => <HideOnScroll {...args} />
 
-export const Sample = Template.bind({})
-Sample.args = {
+export const Example = Template.bind({})
+Example.args = {
   window: () => window,
   children: <>dummy</>,
   enabled: true,

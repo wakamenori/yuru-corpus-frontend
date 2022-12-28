@@ -12,7 +12,7 @@ import {
 } from 'react-hook-form'
 import styled from 'styled-components'
 
-type Props = {
+export type Props = {
   isValid: boolean
   isEdit: boolean
   options: RegisterOptions

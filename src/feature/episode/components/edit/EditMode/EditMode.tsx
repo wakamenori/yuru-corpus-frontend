@@ -1,14 +1,14 @@
-import {  useState } from 'react'
+import { useState } from 'react'
 import 'react-toastify/dist/ReactToastify.css'
 import styled from 'styled-components'
 
-import { Morpheme } from '../../../../types/morpheme/morpheme'
-import { SpeakerInfo } from '../../types/speaker'
-import { AddNew } from './AddNew'
-import { AddNewButton } from './AddNewButton'
-import { UtteranceEditor } from './UtteranceEditor'
+import { Morpheme } from '../../../../../types/morpheme/morpheme'
+import { SpeakerInfo } from '../../../types/speaker'
+import { AddNew } from '../AddNew'
+import { AddNewButton } from '../AddNewButton'
+import { UtteranceEditor } from '../UtteranceEditor'
 
-type Props = {
+export type Props = {
   reloadMorphemes: () => void
   episodeId: number
   display: boolean
@@ -35,7 +35,7 @@ export const EditMode = ({
     <>
       <Container display={display ? 1 : 0}>
         {isAddNew ? (
-          <AddNew onReload={reloadMorphemes} episodeId={episodeId}  />
+          <AddNew onReload={reloadMorphemes} episodeId={episodeId} />
         ) : (
           morphemes.map((morpheme, index) => {
             return (

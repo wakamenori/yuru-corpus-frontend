@@ -2,7 +2,7 @@ import { RegisterOptions, UseFormRegister } from 'react-hook-form'
 import TextareaAutosize from 'react-textarea-autosize'
 import styled from 'styled-components'
 
-type Props = {
+export type Props = {
   isValid: boolean
   isEdit: boolean
   isDirty: boolean

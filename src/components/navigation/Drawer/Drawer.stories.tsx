@@ -9,8 +9,8 @@ export default {
 
 const Template: Story<Props> = (args) => <Drawer {...args} />
 
-export const Sample = Template.bind({})
-Sample.args = {
+export const Example = Template.bind({})
+Example.args = {
   appBarRowNumber: 3,
   open: true,
   toggleDrawer: () => {},

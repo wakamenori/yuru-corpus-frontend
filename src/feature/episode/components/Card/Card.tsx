@@ -2,8 +2,8 @@ import { Box, CardActionArea, Grid } from '@mui/material'
 import Link from 'next/link'
 import styled from 'styled-components'
 
-import { Chip } from '../../../components/ui/Chip'
-import { Summary } from '../../../types/episode/summary'
+import { Chip } from '../../../../components/ui/Chip'
+import { Summary } from '../../../../types/episode/summary'
 
 const StyledImg = styled.img`
   width: 256px;

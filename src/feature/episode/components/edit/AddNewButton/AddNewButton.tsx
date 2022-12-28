@@ -2,7 +2,7 @@ import { Add, HighlightOff } from '@mui/icons-material'
 import { Fab } from '@mui/material'
 import styled from 'styled-components'
 
-type Props = {
+export type Props = {
   isAddNew: boolean
   onClick: () => void
 }

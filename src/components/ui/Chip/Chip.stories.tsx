@@ -9,7 +9,7 @@ export default {
 
 const Template: Story<Props> = (args) => <Chip {...args} />
 
-export const Sample = Template.bind({})
-Sample.args = {
+export const Example = Template.bind({})
+Example.args = {
   label: 'aaa',
 }

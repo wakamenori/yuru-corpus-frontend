@@ -10,9 +10,9 @@ import {
 } from '@mui/material'
 import styled from 'styled-components'
 
-import { SpeakerColorGenerator, guestSpeakers, hostSpeakers } from '../../../../utils/speakers'
+import { SpeakerColorGenerator, guestSpeakers, hostSpeakers } from '../../../../../utils/speakers'
 
-type Props = {
+export type Props = {
   open: boolean
   onClose: () => void
   onSelect: (name: string) => void

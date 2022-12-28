@@ -9,7 +9,7 @@ export default {
 
 const Template: Story<Props> = (args) => <Player {...args} />
 
-export const Sample = Template.bind({})
-Sample.args = {
+export const Example = Template.bind({})
+Example.args = {
   videoId: 'aaa',
 }

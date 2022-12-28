@@ -9,19 +9,26 @@ export default {
 
 const Template: Story<Props> = (args) => <ScrollArea {...args} />
 
-export const Sample = Template.bind({})
-Sample.args = {
+export const Example = Template.bind({})
+Example.args = {
   isEdit: true,
   reloadMorphemes: () => {},
-  speakersInfo: {},
+  speakersInfo: {
+    horimoto: {
+      backgroundColor: 'black',
+      color: 'white',
+      count: 10,
+      percentage: 30,
+    },
+  },
   episodeId: 1,
   morphemesBySpeaker: [
     {
-      speaker: 'aaa',
+      speaker: 'horimoto',
       morphemes: [
         {
           timestamp: '00:00:01',
-          speaker: 'aaa',
+          speaker: 'horimoto',
           token: 'aaa',
         },
       ],
