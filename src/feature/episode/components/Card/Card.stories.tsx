@@ -14,6 +14,7 @@ const summary = {
   thumbnailUrl: 'https://i.ytimg.com/vi/2YY9DT4uDh0/sddefault.jpg',
   publicationDate: '2021-03-11',
   isAnalyzed: true,
+  channel: 'ゆる民俗学ラジオ'
 }
 
 const Template: Story = () => <Card {...summary} />
