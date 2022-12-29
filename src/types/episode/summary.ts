@@ -5,4 +5,5 @@ export type Summary = {
   thumbnailUrl: string;
   publicationDate: string;
   isAnalyzed: boolean;
+  channel: string;
 }
