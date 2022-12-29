@@ -3,6 +3,7 @@ import Link from 'next/link'
 import styled from 'styled-components'
 
 import { Chip } from '../../../../components/ui/Chip'
+import { channelThemes } from '../../../../styles/themes'
 import { Summary } from '../../../../types/episode/summary'
 
 const StyledImg = styled.img`
@@ -51,7 +52,14 @@ export const Card = (summary: Summary) => {
             </Box>
             <Box sx={{ pl: 1, pr: 1 }}>
               <StyledTitle>{summary.title}</StyledTitle>
-              <Chip label={summary.publicationDate.replace(/-/g, '/')} />
+              <Chip
+                label={summary.publicationDate.replace(/-/g, '/')}
+              />
+              <Chip
+                label={summary.channel}
+                backgroundColor={channelThemes[summary.channel].backgroundColor}
+                color={channelThemes[summary.channel].color}
+              />
             </Box>
           </Box>
         </CardActionArea>
