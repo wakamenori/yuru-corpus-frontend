@@ -1,4 +1,5 @@
 import { Box, CardActionArea, Grid } from '@mui/material'
+import Image, { ImageLoaderProps } from 'next/image'
 import Link from 'next/link'
 import styled from 'styled-components'
 
@@ -6,10 +7,9 @@ import { Chip } from '../../../../components/ui/Chip'
 import { channelThemes } from '../../../../styles/themes'
 import { Summary } from '../../../../types/episode/summary'
 
-const StyledImg = styled.img`
+const ImageContainer = styled.div`
   width: 256px;
   height: 144px;
-  object-fit: cover;
   margin: auto;
 
   @media (max-width: 600px) {
@@ -17,6 +17,10 @@ const StyledImg = styled.img`
     height: 81px;
   }
 `
+
+const myLoader = (props: ImageLoaderProps) => {
+  return `${props.src}?w=${props.width}&q=${props.quality || 75}`
+}
 
 const StyledTitle = styled.p`
   margin: 0 0;
@@ -48,7 +52,16 @@ export const Card = (summary: Summary) => {
             }}
           >
             <Box justifyContent='center' alignItems='center' textAlign='center' display='flex'>
-              <StyledImg src={summary.thumbnailUrl} />
+              <ImageContainer>
+                <Image
+                  loader={myLoader}
+                  src={summary.thumbnailUrl}
+                  alt={summary.title}
+                  width={256}
+                  height={144}
+                  objectFit='cover'
+                />
+              </ImageContainer>
             </Box>
             <Box sx={{ pl: 1, pr: 1 }}>
               <StyledTitle>{summary.title}</StyledTitle>
