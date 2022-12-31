@@ -1,25 +1,36 @@
-import { Person } from '@mui/icons-material'
-import {
-  Avatar,
-  Dialog,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemButton,
-  ListItemText,
-} from '@mui/material'
+import { Dialog } from '@mui/material'
 import styled from 'styled-components'
 
-import { SpeakerColorGenerator, guestSpeakers, hostSpeakers } from '../../../../../utils/speakers'
+import { channelThemes } from '../../../../../styles/themes'
+import { Speaker, allSpeakers } from '../../../../../utils/speakers'
+import { SpeakerGroup } from '../SpeakerGroup/SpeakerGroup'
 
 export type Props = {
   open: boolean
   onClose: () => void
   onSelect: (name: string) => void
 }
+type Group = {
+  groupName: string
+  groupTextColor: string
+  groupBackgroundColor: string
+  groupBackgroundColor1?: string
+  speakers: Speaker
+}
+
+const getTheme = (channel: string): Group => {
+  return {
+    groupTextColor: channelThemes[channel].color,
+    groupBackgroundColor: channelThemes[channel].backgroundColor,
+    groupBackgroundColor1: channelThemes[channel].backgroundColor1,
+    groupName: channel,
+    speakers: allSpeakers[channel],
+  }
+}
 
 const Container = styled.div`
-  width: 200px;
+  width: 320px;
+  padding: 16px;
 `
 
 export const SpeakerDialog = ({ open, onClose, onSelect }: Props) => {
@@ -31,40 +42,34 @@ export const SpeakerDialog = ({ open, onClose, onSelect }: Props) => {
     onClose()
     onSelect(value)
   }
-  const colorGenerator = new SpeakerColorGenerator()
-  const speakers = [...hostSpeakers, ...guestSpeakers]
-  const speakerColorMap = speakers.map((name) => {
-    const color = colorGenerator.getSpeakerColor(name)
-    return {
-      name: name,
-      backGroundColor: color.backgroundColor,
-      color: color.color,
-    }
-  })
+  const groups: Group[] = [
+    {
+      ...getTheme('ゆる言語学ラジオ'),
+    },
+    {
+      ...getTheme('監修者'),
+    },
+    {
+      ...getTheme('ゲスト'),
+    },
+    {
+      ...getTheme('ゆる音楽学/民俗学ラジオ'),
+    },
+    {
+      ...getTheme('ゆる哲学/生態学ラジオ'),
+    },
+    {
+      ...getTheme('ゆる天文学/書道学ラジオ'),
+    },
+  ]
 
   return (
     <>
       <Dialog onClose={handleClose} open={open}>
         <Container>
-          <List>
-            {speakerColorMap.map((speakerColor) => (
-              <ListItem
-                onClick={() => handleListItemClick(speakerColor.name)}
-                key={speakerColor.name}
-              >
-                <ListItemButton>
-                  <ListItemAvatar>
-                    <Avatar
-                      sx={{ bgcolor: speakerColor.backGroundColor, color: speakerColor.color }}
-                    >
-                      <Person />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText primary={speakerColor.name} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
+          {groups.map((group) => (
+            <SpeakerGroup {...group} onSelect={handleListItemClick} key={group.groupName} />
+          ))}
         </Container>
       </Dialog>
     </>
