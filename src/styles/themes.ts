@@ -30,8 +30,8 @@ export const channelThemes: Channel = {
   ゆる民俗学ラジオ: { color: '#FFF', backgroundColor: '#4B3CAC' }, // ゆる民俗学ラジオ
   'ゆる音楽学/民俗学ラジオ': {
     color: '#FFF',
-    backgroundColor: '#4B3CAC',
-    backgroundColor1: '#262820',
+    backgroundColor: '#262820',
+    backgroundColor1: '#4B3CAC',
   },
 
   ゆる学徒ハウス: { color: '#FFF', backgroundColor: '#1C8C8E' }, // ゆる学徒ハウス
