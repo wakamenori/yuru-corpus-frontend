@@ -19,33 +19,24 @@ const Container = styled.div`
     flex-wrap: wrap;
   }
 `
-const SignleGroupName = styled.p<{ backgroundColor: string; textColor: string }>`
-  background-color: ${(props) => props.backgroundColor};
-  color: ${(props) => props.textColor};
-  display: inline-block;
-  padding: 0.2rem 0.5rem;
-  foontweight: bold;
-  border-radius: 4px;
-`
-
-const DoubleGroupName = styled.p<{
+const GroupName = styled.p<{
   backgroundColor0: string
-  backgroundColor1: string
+  backgroundColor1?: string
   textColor: string
 }>`
-  /* background-color: ${(props) => props.backgroundColor0}; */
-  background: linear-gradient(
-    120deg,
-    ${(props) => props.backgroundColor0} 0%,
-    ${(props) => props.backgroundColor0} 50%,
-    ${(props) => props.backgroundColor1} 50%,
-    ${(props) => props.backgroundColor1} 100%
-  );
+  margin: 1.2rem 0 0.5rem;
+  ${(props) =>
+    props.backgroundColor1
+      ? `background: linear-gradient(120deg, ${props.backgroundColor0} 0%, ${props.backgroundColor0} 50%, ${props.backgroundColor1} 50%, ${props.backgroundColor1} 100%);`
+      : `background-color: ${props.backgroundColor0};`}
   color: ${(props) => props.textColor};
   display: inline-block;
-  padding: 0.2rem 0.5rem;
+  padding: 0.1rem 0.5rem;
   foontweight: bold;
   border-radius: 4px;
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
 `
 
 export const SpeakerGroup = ({
@@ -58,15 +49,13 @@ export const SpeakerGroup = ({
 }: Props) => {
   return (
     <Container>
-      {!groupBackgroundColor1 ? (
-      <SignleGroupName backgroundColor={groupBackgroundColor} textColor={groupTextColor}>
-        {groupName}
-      </SignleGroupName>
-        ): (
-      <DoubleGroupName backgroundColor0={groupBackgroundColor} backgroundColor1={groupBackgroundColor1} textColor={groupTextColor}>
-        {groupName}
-      </DoubleGroupName>
-        )}
+        <GroupName
+          backgroundColor0={groupBackgroundColor}
+          backgroundColor1={groupBackgroundColor1}
+          textColor={groupTextColor}
+        >
+          {groupName}
+        </GroupName>
       <div className='chips'>
         {Object.keys(speakers).map((name) => {
           return (

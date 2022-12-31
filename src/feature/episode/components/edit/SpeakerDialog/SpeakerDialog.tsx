@@ -29,7 +29,6 @@ const getTheme = (channel: string): Group => {
 }
 
 const Container = styled.div`
-  width: 320px;
   padding: 16px;
 `
 

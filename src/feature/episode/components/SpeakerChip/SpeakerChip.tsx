@@ -14,6 +14,9 @@ const Container = styled.div<{ backgroundColor: string, color: string }>`
   border-radius: 8px;
   margin:  0.2rem;
   padding: 0 0.5rem;
+  @media (max-width: 768px) {
+    font-size: 0.8rem;
+  }
 `
 
 export const SpeakerChip = ({ backgroundColor, label, labelColor, onClick }: Props) => {
