@@ -3,7 +3,7 @@ type SpeakerColor = {
 }
 
 const hostSpeakerColors: SpeakerColor = {
-  水野: { backgroundColor: '#E7DBD0', color: 'E7DBD0' },
+  水野: { backgroundColor: '#E7DBD0', color: '#374151' },
   堀元: { backgroundColor: '#3F3D48', color: '#FFFFFF' },
 }
 
