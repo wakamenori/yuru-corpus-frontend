@@ -6,8 +6,8 @@ import { ChangeEvent, useContext, useEffect, useState } from 'react'
 import { animateScroll as scroll } from 'react-scroll'
 
 import { NotificationContext } from '../../context/notification'
-import { CardList } from '../../feature/episode/components/CardList'
-import { Pagination } from '../../feature/episode/components/Pagination'
+import { CardList } from '../../feature/episode/components/list/CardList'
+import { Pagination } from '../../feature/episode/components/list/Pagination'
 import { Summary } from '../../types/episode/summary'
 
 type Props = {}
