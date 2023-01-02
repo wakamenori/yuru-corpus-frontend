@@ -63,7 +63,7 @@ export const CardFilter = ({ filterConf }: Props) => {
           <ChannelNameChip
             name='ゆる哲学ラジオ'
             isActive={filterConf.showTetsugaku}
-            onClick={filterConf.showTetsugaku}
+            onClick={filterConf.toggleTetsugaku}
             size='small'
           />
           <ChannelNameChip
