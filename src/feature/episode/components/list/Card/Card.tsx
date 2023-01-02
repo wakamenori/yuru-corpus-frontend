@@ -18,6 +18,11 @@ const ImageContainer = styled.div`
   }
 `
 
+const Chips = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`
+
 const myLoader = (props: ImageLoaderProps) => {
   return `${props.src}?w=${props.width}&q=${props.quality || 75}`
 }
@@ -65,15 +70,15 @@ export const Card = (summary: Summary) => {
             </Box>
             <Box sx={{ pl: 1, pr: 1 }}>
               <StyledTitle>{summary.title}</StyledTitle>
-              <Chip
-                label={summary.publicationDate.replace(/-/g, '/')}
-              />
+              <Chips>
                 {/* TODO: GroupNameに変更 */}
-              <Chip
-                label={summary.channel}
-                backgroundColor={channelThemes[summary.channel].backgroundColor}
-                color={channelThemes[summary.channel].color}
-              />
+                <Chip
+                  label={summary.channel}
+                  backgroundColor={channelThemes[summary.channel].backgroundColor}
+                  color={channelThemes[summary.channel].color}
+                />
+                <Chip label={summary.publicationDate.replace(/-/g, '/')} />
+              </Chips>
             </Box>
           </Box>
         </CardActionArea>
