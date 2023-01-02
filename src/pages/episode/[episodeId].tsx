@@ -5,9 +5,9 @@ import 'react-toastify/dist/ReactToastify.css'
 import styled from 'styled-components'
 
 import { Player } from '../../components/youtube/Player'
-import { Header } from '../../feature/episode/components/Header'
-import { ScrollArea } from '../../feature/episode/components/ScrollArea'
-import { Panel } from '../../feature/episode/components/panel/Panel'
+import { Header } from '../../feature/episode/components/detail/Header'
+import { ScrollArea } from '../../feature/episode/components/detail/ScrollArea'
+import { Panel } from '../../feature/episode/components/detail/panel/Panel'
 import { SpeakerInfo } from '../../feature/episode/types/speaker'
 import { getMorphemesApi } from '../../feature/episode/utils/api'
 import { Summary } from '../../types/episode/summary'
@@ -147,7 +147,7 @@ export const getStaticPaths = async () => {
     paths: allEpisodes.summary
       .filter((summary) => summary.isAnalyzed)
       .map((episode) => ({ params: { episodeId: episode.id.toString() } })),
-    fallback: "blocking",
+    fallback: 'blocking',
   }
 }
 
