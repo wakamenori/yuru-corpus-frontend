@@ -41,8 +41,8 @@ export const useCardFilter = (
   const toggleTenmon = () => setShowTenmon((prev) => !prev)
   const [showSeitai, setShowSeitai] = useState(true)
   const toggleSeitai = () => setShowSeitai((prev) => !prev)
-  const [showTesugaku, setShowTesugaku] = useState(true)
-  const toggleTesugaku = () => setShowTesugaku((prev) => !prev)
+  const [showTetsugaku, setShowTetsugaku] = useState(true)
+  const toggleTetsugaku = () => setShowTetsugaku((prev) => !prev)
   const [showOngaku, setShowOngaku] = useState(true)
   const toggleOngaku = () => setShowOngaku((prev) => !prev)
   const [showMinzoku, setShowMinzoku] = useState(true)
@@ -57,16 +57,28 @@ export const useCardFilter = (
   useEffect(() => {
     setFilteredSummaries(
       summaries.filter((summary) => {
-        if (!showGengo) {
-          return summary.channel !== 'ゆる言語学ラジオ'
-        }else if(!showCom){
-          return summary.channel !== 'ゆるコンピュータ科学ラジオ'
+        if (!showGengo && summary.channel === 'ゆる言語学ラジオ') {
+          return false
+        }else if(!showCom && summary.channel === 'ゆるコンピュータ科学ラジオ'){
+          return false
+        }else if(!showShodo && summary.channel === 'ゆる書道学ラジオ'){
+          return false
+        }else if(!showTenmon && summary.channel === 'ゆる天文学ラジオ'){
+          return false
+        }else if(!showSeitai && summary.channel === 'ゆる生態学ラジオ'){
+          return false
+        }else if(!showTetsugaku && summary.channel === 'ゆる哲学ラジオ'){
+          return false
+        }else if(!showOngaku && summary.channel === 'ゆる音楽学ラジオ'){
+          return false
+        }else if(!showMinzoku && summary.channel === 'ゆる民俗学ラジオ'){
+          return false
         } else {
           return true
         }
       }),
     )
-  }, [summaries, showGengo, showCom])
+  }, [summaries, showGengo, showCom, showShodo, showTenmon, showSeitai, showTetsugaku, showOngaku, showMinzoku])
 
   return {
     filterConf: {
@@ -80,8 +92,8 @@ export const useCardFilter = (
       toggleTenmon,
       showSeitai,
       toggleSeitai,
-      showTetsugaku: showTesugaku,
-      toggleTetsugaku: toggleTesugaku,
+      showTetsugaku ,
+      toggleTetsugaku,
       showOngaku,
       toggleOngaku,
       showMinzoku,

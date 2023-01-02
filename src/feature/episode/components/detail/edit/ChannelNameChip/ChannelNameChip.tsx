@@ -56,7 +56,7 @@ export const ChannelNameChip = ({ name, onClick, isActive, size }: Props) => {
       clickable={!!onClick}
       size={size}
     >
-      <span>{name}</span>
+      {name}
     </Container>
   )
 }
