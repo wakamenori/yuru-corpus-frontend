@@ -10,10 +10,10 @@ export const SearchContext = createContext({
   isLoading: undefined as boolean | undefined,
   isError: undefined as boolean | undefined,
 })
-const summaryApi = async (episodeId: number) => {
-  const url = `${process.env.NEXT_PUBLIC_API_ROOT}/summary/by_episode/${episodeId}/`
-  const response = await axios.get<Summary>(url)
-  return response.data
+const summaryApi = async () => {
+  const url = `${process.env.NEXT_PUBLIC_API_ROOT}/summary/`
+  const response = await axios.get<{ summary: Summary[] }>(url)
+  return response.data.summary
 }
 
 const searchApi = async (searchString: string) => {
@@ -45,12 +45,9 @@ export const SearchContextProvider = (props: any) => {
         setIsLoading(true)
         try {
           const data = await searchApi(searchString)
-          const summaries = await Promise.all(
-            data.map(async (episode) => {
-              const summary = await summaryApi(episode.episodeId)
-              return summary
-            }),
-          )
+          const allSummaries = await summaryApi()
+          const summaries = allSummaries.filter((summary) => data.some((result) => result.episodeId === summary.id))
+          console.log({data, allSummaries, summaries})
           setIsLoading(false)
           setSearchHistory((prev) => {
             return {
