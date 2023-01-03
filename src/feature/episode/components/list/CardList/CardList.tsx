@@ -1,5 +1,5 @@
 import { Box, Grid } from '@mui/material'
-import { ChangeEvent, useState, useEffect } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { animateScroll } from 'react-scroll'
 
 import { useHash } from '../../../../../hooks/use-hash'
@@ -8,26 +8,31 @@ import { Card } from '../Card'
 import { Pagination } from '../Pagination/Pagination'
 
 export type Props = {
-  summary: Summary[]
+  summaries: Summary[]
 }
 
-export const CardList = ({ summary }: Props) => {
-  const [page, setPage] = useState(1)
+export const CardList = ({ summaries }: Props) => {
+  const [currentPage, setCurrentPage] = useState(1)
   const cardPerPage = 10
-  const summarySlice = summary.slice((page - 1) * cardPerPage, page * cardPerPage)
-  const totalPages = Math.ceil(summary.length / cardPerPage)
-
+  const summarySlice = summaries.slice((currentPage - 1) * cardPerPage, currentPage * cardPerPage)
+  const totalPages = Math.ceil(summaries.length / cardPerPage)
   const [hash, setHash] = useHash()
 
   useEffect(() => {
     if (hash) {
-      setPage(Number(hash))
+      setCurrentPage(Number(hash))
     }
   }, [])
 
+  useEffect(() => {
+    if (totalPages < currentPage && totalPages !== 0) {
+      setCurrentPage(totalPages)
+      setHash(totalPages.toString())
+    }
+  }, [totalPages, currentPage, setHash])
 
   const handleChange = (_: ChangeEvent<unknown>, value: number) => {
-    setPage(value)
+    setCurrentPage(value)
     setHash(value.toString())
     animateScroll.scrollToTop({ duration: 200 })
   }
@@ -39,7 +44,7 @@ export const CardList = ({ summary }: Props) => {
           <Card {...item} key={item.id} />
         ))}
       </Grid>
-      <Pagination totalPages={totalPages} page={page} handleChange={handleChange} />
+      <Pagination totalPages={totalPages} page={currentPage} handleChange={handleChange} />
     </Box>
   )
 }

@@ -17,7 +17,7 @@ const Episode: NextPage<Props> = ({ summary }) => {
     <>
       <Box marginTop={{ xs: 8, sm: 10 }} marginBottom={{ xs: 9, sm: 9 }}>
         <CardFilter filterConf={filterConf} />
-        <CardList summary={filteredSummaries} />
+        <CardList summaries={filteredSummaries} />
       </Box>
     </>
   )

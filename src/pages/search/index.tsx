@@ -17,7 +17,7 @@ const Search: NextPage = () => {
         )}
       </Box>
       <Box marginBottom={{ xs: 9, sm: 9 }}>
-        <CardList summary={searchResult} />
+        <CardList summaries={searchResult} />
       </Box>
     </>
   )
