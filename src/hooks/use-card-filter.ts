@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import { Summary } from '../../../types/episode/summary'
+import { Summary } from '../types/episode/summary'
 
 export type FilterConf = {
   showGengo: boolean

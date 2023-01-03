@@ -2,8 +2,8 @@ import { Box, Grid } from '@mui/material'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { animateScroll } from 'react-scroll'
 
-import { useHash } from '../../../../../hooks/use-hash'
-import { Summary } from '../../../../../types/episode/summary'
+import { useHash } from '../../../../hooks/use-hash'
+import { Summary } from '../../../../types/episode/summary'
 import { Card } from '../Card'
 import { Pagination } from '../Pagination/Pagination'
 

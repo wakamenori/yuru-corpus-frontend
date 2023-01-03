@@ -3,9 +3,9 @@ import Image, { ImageLoaderProps } from 'next/image'
 import Link from 'next/link'
 import styled from 'styled-components'
 
-import { Chip } from '../../../../../components/ui/Chip'
-import { channelThemes } from '../../../../../styles/themes'
-import { Summary } from '../../../../../types/episode/summary'
+import { Chip } from '../../../ui/Chip'
+import { channelThemes } from '../../../../styles/themes'
+import { Summary } from '../../../../types/episode/summary'
 
 const ImageContainer = styled.div`
   width: 256px;
