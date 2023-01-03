@@ -95,5 +95,5 @@ const summaries = [
 
 export const Example = Template.bind({})
 Example.args = {
-  summary: summaries,
+  summaries: summaries,
 }
