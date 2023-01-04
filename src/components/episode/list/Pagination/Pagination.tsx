@@ -1,7 +1,7 @@
 import { Box, Pagination as MuiPagination, Stack } from '@mui/material'
 import React, { ChangeEvent } from 'react'
 
-import { useWindowDimensions } from '../../../../../hooks/use-window-dimensions'
+import { useWindowDimensions } from '../../../../hooks/use-window-dimensions'
 
 export type Props = {
   totalPages: number
