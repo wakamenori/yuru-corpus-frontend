@@ -1,8 +1,8 @@
 import type { NextRouter } from 'next/router'
-import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
 import { Summary } from '../types/episode/summary'
+import { useRouter } from './use-router'
 
 export type FilterConf = {
   showGengo: boolean
