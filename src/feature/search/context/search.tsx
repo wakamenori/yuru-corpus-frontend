@@ -1,9 +1,10 @@
 import axios from 'axios'
-import { useRouter } from 'next/router'
 import { createContext, useContext, useEffect, useState } from 'react'
 
 import { NotificationContext } from '../../../context/notification'
+import { useRouter } from '../../../hooks/use-router'
 import { Summary } from '../../../types/episode/summary'
+
 
 export const SearchContext = createContext({
   searchResult: [] as Summary[],
@@ -40,25 +41,27 @@ export const SearchContextProvider = (props: any) => {
     if (typeof searchString !== 'string') {
       return
     }
-    (async () => {
-        setIsError(false)
-        setIsLoading(true)
-        try {
-          const data = await searchApi(searchString)
-          const allSummaries = await summaryApi()
-          const summaries = allSummaries.filter((summary) => data.some((result) => result.episodeId === summary.id))
-          console.log({data, allSummaries, summaries})
-          setIsLoading(false)
-          setSearchHistory((prev) => {
-            return {
-              ...prev,
-              [searchString]: summaries,
-            }
-          })
-        } catch (e) {
-          setIsError(true)
-          notify('エラーが発生しました もう一度検索してください', 'error')
-        }
+    ;(async () => {
+      setIsError(false)
+      setIsLoading(true)
+      try {
+        const data = await searchApi(searchString)
+        const allSummaries = await summaryApi()
+        const summaries = allSummaries.filter((summary) =>
+          data.some((result) => result.episodeId === summary.id),
+        )
+        console.log({ data, allSummaries, summaries })
+        setIsLoading(false)
+        setSearchHistory((prev) => {
+          return {
+            ...prev,
+            [searchString]: summaries,
+          }
+        })
+      } catch (e) {
+        setIsError(true)
+        notify('エラーが発生しました もう一度検索してください', 'error')
+      }
     })()
   }, [router.query, notify])
 
