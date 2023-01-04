@@ -22,7 +22,7 @@ export const CardList = ({ summaries }: Props) => {
     if (hash) {
       setCurrentPage(Number(hash))
     }
-  }, [])
+  }, [hash])
 
   useEffect(() => {
     if (totalPages < currentPage && totalPages !== 0) {
