@@ -6,7 +6,7 @@ import { CardList } from '../../components/episode/list/CardList'
 import { SearchContext } from '../../feature/search/context/search'
 
 const Search: NextPage = () => {
-  const { isLoading, searchResult } = useContext(SearchContext)
+  const { isLoading, searchResult, summaries } = useContext(SearchContext)
   return (
     <>
       <Box marginTop={{ xs: 9, sm: 11 }} marginLeft={3}>
@@ -17,7 +17,7 @@ const Search: NextPage = () => {
         )}
       </Box>
       <Box marginBottom={{ xs: 9, sm: 9 }}>
-        <CardList summaries={searchResult} />
+        <CardList searchResults={searchResult} summaries={summaries} />
       </Box>
     </>
   )
