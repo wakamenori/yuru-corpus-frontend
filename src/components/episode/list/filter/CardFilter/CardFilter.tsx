@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import styled from 'styled-components'
 
-import { FilterConf } from '../../../../hooks/use-card-filter'
-import { ChannelNameChip } from '../../../detail/edit/ChannelNameChip/ChannelNameChip'
+import { ChannelNameChip } from '../../../../../feature/episode/components/detail/edit/ChannelNameChip/ChannelNameChip'
+import { FilterConf } from '../../../../../hooks/use-card-filter'
 import { FilterButton } from '../FilterButton/FilterButton'
 
 export type Props = {

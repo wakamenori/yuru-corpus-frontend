@@ -2,7 +2,7 @@ import { Box, CircularProgress } from '@mui/material'
 import { NextPage } from 'next'
 import { useContext } from 'react'
 
-import { CardList } from '../../feature/episode/components/list/CardList'
+import { CardList } from '../../components/episode/list/CardList'
 import { SearchContext } from '../../feature/search/context/search'
 
 const Search: NextPage = () => {

@@ -2,9 +2,9 @@ import { Box } from '@mui/material'
 import axios from 'axios'
 import { GetStaticPropsResult, NextPage } from 'next'
 
-import { CardList } from '../../feature/episode/components/list/CardList'
-import { CardFilter } from '../../feature/episode/components/list/filter/CardFilter'
-import { useCardFilter } from '../../feature/episode/hooks/use-card-filter'
+import { CardList } from '../../components/episode/list/CardList'
+import { CardFilter } from '../../components/episode/list/filter/CardFilter'
+import { useCardFilter } from '../../hooks/use-card-filter'
 import { Summary } from '../../types/episode/summary'
 
 type Props = {
