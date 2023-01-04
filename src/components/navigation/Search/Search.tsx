@@ -1,7 +1,9 @@
 import SearchIcon from '@mui/icons-material/Search'
 import InputBase from '@mui/material/InputBase'
 import { alpha, styled } from '@mui/material/styles'
-import { useRouter } from 'next/router'
+
+import { useRouter } from '../../../hooks/use-router'
+
 
 export const SearchDiv = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -55,7 +57,7 @@ export const Search = () => {
       <StyledInputBase
         placeholder='Search…'
         inputProps={{ 'aria-label': 'search' }}
-        onKeyPress={(e:any) => {
+        onKeyPress={(e: any) => {
           if (e.key === 'Enter') {
             router.push(`search/?string=${e.target.value}`)
           }

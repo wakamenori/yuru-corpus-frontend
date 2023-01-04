@@ -1,5 +1,6 @@
-import { useRouter } from 'next/router'
 import { useCallback } from 'react'
+
+import { useRouter } from './use-router'
 
 export function useHash(): [string, (newHash: string) => void] {
   const router = useRouter()

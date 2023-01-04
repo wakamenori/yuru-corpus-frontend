@@ -1,10 +1,11 @@
 import { VideoLibrary } from '@mui/icons-material'
 import { Toolbar } from '@mui/material'
 import MuiDrawer from '@mui/material/Drawer'
-import { useRouter } from 'next/router'
 import { KeyboardEvent, MouseEvent } from 'react'
 
+import { useRouter } from '../../../hooks/use-router'
 import { DrawerItem } from '../DrawerItem'
+
 
 export type Props = {
   appBarRowNumber?: number

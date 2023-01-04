@@ -1,7 +1,9 @@
 import { ArrowBack } from '@mui/icons-material'
 import { AppBar, IconButton, Toolbar } from '@mui/material'
-import { useRouter } from 'next/router'
 import styled from 'styled-components'
+
+import { useRouter } from '../../../../../hooks/use-router'
+
 
 export type Props = {
   title: string

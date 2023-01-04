@@ -1,11 +1,12 @@
 import { Menu } from '@mui/icons-material'
 import { Box, CssBaseline, IconButton, AppBar as MuiAppBar, Toolbar } from '@mui/material'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
-import { useRouter } from 'next/router'
 import { KeyboardEvent, MouseEvent, useState } from 'react'
 
+import { useRouter } from '../../../hooks/use-router'
 import { Drawer } from '../Drawer'
 import { Search } from '../Search'
+
 
 const theme = createTheme({
   palette: {
