@@ -14,7 +14,6 @@ export const HistoryContextProvider = (props: any) => {
   const addHistory = (url: UrlObject | string) => setHistory([...history, url])
 
   useEffect(() => {
-    console.log('history', history)
     if (router.isReady) {
       addHistory(`${router.asPath}`)
     }
@@ -22,7 +21,6 @@ export const HistoryContextProvider = (props: any) => {
 
   const [firstVisit, setFirstVisit] = useState(true)
   useEffect(() => {
-    console.log('History changed', history)
     if (history.length > 1) {
       setFirstVisit(false)
     }
