@@ -52,7 +52,7 @@ export const CardList = ({ summaries, searchResults }: Props) => {
   }
 
   const { width } = useWindowDimensions()
-  const column = width > 900 ? 2 : 1
+  const column = width > 1200 ? 2 : 1
   let searchResultsPerRows: SearchResult[][] | undefined
   if (typeof searchResultsSlice !== 'undefined') {
     searchResultsPerRows = chunk(searchResultsSlice, column)

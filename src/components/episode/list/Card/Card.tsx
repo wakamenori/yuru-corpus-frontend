@@ -42,7 +42,7 @@ export const Card = ({ summary, searchResult }: Props) => {
     <Box
       sx={{
         borderRadius: 1,
-        width: width > 900 ? '50%' : '100%',
+        width: width > 1200 ? '50%' : '100%',
         boxShadow: 4,
         overflow: 'hidden',
         mr: 1,
