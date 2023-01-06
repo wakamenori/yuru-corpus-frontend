@@ -12,7 +12,6 @@ export const Head = ({ title, description }: Props) => {
       <meta name='description' content={description}></meta>
       <meta charSet='utf-8' />
       <meta property='og:type' content='website' />
-      <meta property='og:image' content={'/favicon.ico'} />
       <meta property='og:site_name' content={title} />
       <meta name='viewport' content='width=device-width,initial-scale=1.0,minimum-scale=1.0' />
       <link rel='apple-touch-icon' sizes='180x180' href='/favicons/apple-touch-icon.png' />
