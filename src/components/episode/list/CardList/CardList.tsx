@@ -4,13 +4,21 @@ import { animateScroll } from 'react-scroll'
 
 import { SearchResult } from '../../../../feature/search/context/search'
 import { useHash } from '../../../../hooks/use-hash'
+import { useWindowDimensions } from '../../../../hooks/use-window-dimensions'
 import { Summary } from '../../../../types/episode/summary'
-import { Card } from '../Card'
+import { CardRow } from '../CardRow'
 import { Pagination } from '../Pagination'
 
 export type Props = {
   summaries: Summary[]
   searchResults?: SearchResult[]
+}
+
+function chunk<T extends any[]>(arr: T, size: number) {
+  return arr.reduce(
+    (newarr, _, i) => (i % size ? newarr : [...newarr, arr.slice(i, i + size)]),
+    [] as T[][],
+  )
 }
 
 export const CardList = ({ summaries, searchResults }: Props) => {
@@ -42,15 +50,23 @@ export const CardList = ({ summaries, searchResults }: Props) => {
     setHash(value.toString())
     animateScroll.scrollToTop({ duration: 200 })
   }
-  const getSearchResultItem = (index: number): SearchResult | undefined => {
-    return searchResultsSlice?.[index]
+
+  const { width } = useWindowDimensions()
+  const column = width > 900 ? 2 : 1
+  let searchResultsPerRows: SearchResult[][] | undefined
+  if (typeof searchResultsSlice !== 'undefined') {
+    searchResultsPerRows = chunk(searchResultsSlice, column)
   }
 
   return (
     <Box>
       <Grid container rowSpacing={{ xs: 1, sm: 2 }}>
-        {cardItemsSlice.map((item, index) => (
-          <Card summary={item} key={item.id!} searchResult={getSearchResultItem(index)} />
+        {chunk(cardItemsSlice, column).map((item: Summary[], index: number) => (
+          <CardRow
+            summaries={item}
+            key={item[0].id!}
+            searchResults={searchResultsPerRows?.[index]}
+          />
         ))}
       </Grid>
       <Pagination totalPages={totalPages} page={currentPage} handleChange={handleChange} />
