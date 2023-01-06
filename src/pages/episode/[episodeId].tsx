@@ -3,6 +3,7 @@ import { GetStaticPropsResult, NextPage } from 'next'
 import { useCallback, useEffect, useState } from 'react'
 import 'react-toastify/dist/ReactToastify.css'
 import styled from 'styled-components'
+import {Head} from '../../components/Head'
 
 import { Player } from '../../components/youtube/Player'
 import { Header } from '../../feature/episode/components/detail/Header'
@@ -98,6 +99,7 @@ const EpisodeDetail: NextPage<Props> = ({ morphemes, summary }) => {
 
   return (
     <>
+      <Head title={summary.title} description={`${summary.channel}による「${summary.title}」の非公式AI文字起こし`} />
       <Header title={summary.title} hideOnScloll={false} />
       <PlayerWithPanel>
         <Player videoId={videoId} />
