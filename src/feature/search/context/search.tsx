@@ -28,7 +28,7 @@ const summaryApi = async () => {
 }
 
 const searchApi = async (searchString: string) => {
-  const url = `${process.env.NEXT_PUBLIC_API_ROOT}/search/?string=${searchString}`
+  const url = `${process.env.NEXT_PUBLIC_API_ROOT}/search/opensearch?string=${searchString}`
   const response = await axios.get<{ result: SearchResult[] }>(url)
   return response.data.result
 }
@@ -44,7 +44,7 @@ export const SearchContextProvider = (props: any) => {
       const allSummaries = await summaryApi()
       setSummaries(allSummaries)
     })()
-  })
+  }, [])
 
   const { notify } = useContext(NotificationContext)
 
