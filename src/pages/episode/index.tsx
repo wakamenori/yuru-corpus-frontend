@@ -1,6 +1,7 @@
 import { Box } from '@mui/material'
 import axios from 'axios'
 import { GetStaticPropsResult, NextPage } from 'next'
+import { Head } from '../../components/Head'
 
 import { CardList } from '../../components/episode/list/CardList'
 import { CardFilter } from '../../components/episode/list/filter/CardFilter'
@@ -15,6 +16,10 @@ const Episode: NextPage<Props> = ({ summary }) => {
 
   return (
     <>
+      <Head
+        title='ゆる言コーパス'
+        description='ゆる言語学ラジオ関連コンテンツのAi文字起こしサイトです'
+      />
       <Box marginTop={{ xs: 8, sm: 10 }} marginBottom={{ xs: 9, sm: 9 }}>
         <CardFilter filterConf={filterConf} />
         <CardList summaries={filteredSummaries} />
