@@ -3,6 +3,7 @@ import { createContext, useContext, useEffect, useState } from 'react'
 
 import { NotificationContext } from '../../../context/notification'
 import { useRouter } from '../../../hooks/use-router'
+import { event } from '../../../lib/gtag'
 import { Summary } from '../../../types/episode/summary'
 
 export type SearchResult = {
@@ -30,6 +31,11 @@ const summaryApi = async () => {
 const searchApi = async (searchString: string) => {
   const url = `${process.env.NEXT_PUBLIC_API_ROOT}/search/opensearch?string=${searchString}`
   const response = await axios.get<{ result: SearchResult[] }>(url)
+  event({
+    action: 'search',
+    category: 'query string',
+    label: searchString,
+  })
   return response.data.result
 }
 
